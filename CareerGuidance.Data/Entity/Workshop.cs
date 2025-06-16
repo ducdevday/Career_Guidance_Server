@@ -19,11 +19,11 @@ namespace CareerGuidance.Data.Entity
         public int? RatingCount { get; set; }
         public TourStatusType Status { get; set; }
 
-        public string IndustryId { get; set; }
+        public int IndustryId { get; set; }
         public Industry Industry { get; set; }
         public int AddressId { get; set; }
         public Address Address { get; set; }
         public List<UserEnrollWorkshop> UserEnrollWorkshops { get; set; }
-        public List<WorkShopReview> WorkshopReviews { get; set; }
+        public List<WorkshopReview> WorkshopReviews { get; set; }
     }
 }

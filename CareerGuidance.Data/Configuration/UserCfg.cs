@@ -18,6 +18,26 @@ namespace CareerGuidance.Data.Configuration
 
             builder.HasKey(x => x.Id);
 
+            builder.Property(m => m.FirstName)
+                                            .IsRequired()
+                                            .HasMaxLength(100);
+
+            builder.Property(m => m.LastName)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            builder.Property(m => m.MiddleName).HasMaxLength(100);
+
+            builder.Property(s => s.Gender)
+                                         .IsRequired()
+                                         .HasConversion(
+                                             appToDB => appToDB.ToString(),
+                                             dbToApp => System.Enum.Parse<GenderType>(dbToApp)
+                                             );
+
+            builder.Property(s => s.DateOfBirth)
+                   .IsRequired();
+
             builder.HasIndex(x => x.Email).IsUnique();
 
             builder.HasIndex(x => x.PhoneNumber).IsUnique();
@@ -43,16 +63,6 @@ namespace CareerGuidance.Data.Configuration
                    .HasConversion(
                                  appToDb => appToDb.ToString(),
                                  dbToApp => System.Enum.Parse<AccountStatusType>(dbToApp));
-
-            builder.HasOne(x => x.Address)
-                   .WithOne()
-                   .HasForeignKey<User>(x => x.AddressId)
-                   .OnDelete(DeleteBehavior.SetNull);
-
-            // ─── Discriminator cho TPH ─────────────────────────────────────────────
-            builder.HasDiscriminator<string>("Discriminator")
-                    .HasValue<Admin>("Admin")
-                   .HasValue<Student>("Student");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(x => x.TimeType).IsRequired().HasConversion(appToDb => appToDb.ToString(), dbToApp => System.Enum.Parse<TimeType>(dbToApp));
             builder.Property(x => x.Status).IsRequired().HasDefaultValue(TourStatusType.Draft).IsRequired().HasConversion(appToDb => appToDb.ToString(), dbToApp => System.Enum.Parse<TourStatusType>(dbToApp));
             builder.HasOne(x => x.Industry).WithMany(x => x.Tours).HasForeignKey(x => x.IndustryId);
-            builder.HasOne(x => x.Address).WithOne().HasForeignKey<Tour>(x => x.AddressId);
+            builder.HasOne(x => x.Address).WithOne(x => x.Tour).HasForeignKey<Tour>(x => x.AddressId);
         }
     }
 }

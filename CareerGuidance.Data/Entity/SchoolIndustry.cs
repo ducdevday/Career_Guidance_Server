@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.Data.Entity
 {
-    public class UserIndustry: AuditableEntity
+    public class SchoolIndustry : AuditableEntity
     {
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public Guid SchoolId { get; set; }
+        public School School { get; set; }
         public int IndustryId { get; set; }
         public Industry Industry { get; set; }
     }

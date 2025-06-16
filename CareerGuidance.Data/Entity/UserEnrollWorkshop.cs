@@ -10,7 +10,7 @@ namespace CareerGuidance.Data.Entity
     {
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public Guid WorkshopId { get; set; }
+        public int WorkshopId { get; set; }
         public Workshop Workshop { get; set; }
     }
 }

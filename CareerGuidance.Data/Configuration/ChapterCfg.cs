@@ -25,9 +25,6 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(x => x.Description).IsRequired().HasMaxLength(500);
 
-            builder.Property(x => x.Order)
-                   .ValueGeneratedOnAdd();
-
             builder.HasOne(x => x.Course).WithMany(x => x.Chapters)
                    .HasForeignKey(x => x.CourseId)
                    .OnDelete(DeleteBehavior.Cascade);

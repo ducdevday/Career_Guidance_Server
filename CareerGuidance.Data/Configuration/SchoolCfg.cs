@@ -14,12 +14,13 @@ namespace CareerGuidance.Data.Configuration
         public override void Configure(EntityTypeBuilder<School> builder)
         {
             base.Configure(builder);
+            builder.HasKey(x => x.Id);
             builder.Property(c => c.FullName).IsRequired().HasMaxLength(100);
             builder.Property(c => c.ShortName).IsRequired().HasMaxLength(50);
             builder.Property(c => c.EstablishmentDate).IsRequired();
-            builder.Property(c => c.YearOfExperience)
-                .IsRequired()
-                .HasDefaultValue(0);
+            builder.HasOne(x => x.Address)
+                                        .WithOne(x => x.School)
+                                        .HasForeignKey<School>(x => x.AddressId);
         }
     }
 }

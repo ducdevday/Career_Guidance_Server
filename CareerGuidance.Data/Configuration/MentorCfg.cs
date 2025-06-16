@@ -15,23 +15,11 @@ namespace CareerGuidance.Data.Configuration
         public override void Configure(EntityTypeBuilder<Mentor> builder)
         {
             base.Configure(builder);
-            builder.Property(m => m.FirstName)
-                .IsRequired()
-                .HasMaxLength(100);
-            builder.Property(m => m.LastName)
-                .IsRequired()
-                .HasMaxLength(100);
-            builder.Property(m => m.MiddleName).HasMaxLength(100);
-
-            builder.Property(s => s.Gender)
-                                         .IsRequired()
-                                         .HasConversion(
-                                             appToDB => appToDB.ToString(),
-                                             dbToApp => System.Enum.Parse<GenderType>(dbToApp)
-                                             );
-
-            builder.Property(s => s.DateOfBirth)
-                   .IsRequired();
+            builder.HasKey(x => x.Id);
+            builder.HasOne(x => x.Industry).WithMany(x => x.Mentors).HasForeignKey(x => x.IndustryId);
+            builder.HasOne(x => x.Address)
+                                        .WithOne(x => x.Mentor)
+                                        .HasForeignKey<Mentor>(x => x.AddressId);
         }
     }
 }

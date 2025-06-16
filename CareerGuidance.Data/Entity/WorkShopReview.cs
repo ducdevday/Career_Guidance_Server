@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.Data.Entity
 {
-    public class WorkShopReview : AuditableEntity
+    public class WorkshopReview : AuditableEntity
     {
         public Guid Id { get; set; }
         public int Rating { get; set; }

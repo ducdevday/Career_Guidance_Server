@@ -1,5 +1,4 @@
-﻿using CareerGuidance.Data.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.Data.Entity
 {
-    public class Mentor : User
+    public class Mentor : AuditableEntity
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string? MiddleName { get; set; }
-        public GenderType Gender { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public Guid Id { get; set; }
+        public string? Bio { get; set; }
+        public string? About { get; set; }
+        public string? Website { get; set; }
+        public string? FacebookUrl { get; set; }
+        public string? TiktokUrl { get; set; }
+        public string? InstagramUrl { get; set; }
+        public string? LinkedinUrl { get; set; }
+        public int IndustryId { get; set; }
+        public Industry Industry { get; set; }
+        public int AddressId { get; set; }
+        public Address Address { get; set; }
     }
 }

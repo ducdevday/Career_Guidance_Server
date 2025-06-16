@@ -9,22 +9,21 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.Data.Configuration
 {
-    public class UserIndustryCfg : AuditableEntityCfg<UserIndustry>, IEntityTypeConfiguration<UserIndustry>
+    public class CompanyIndustryCfg : AuditableEntityCfg<CompanyIndustry>, IEntityTypeConfiguration<CompanyIndustry>
     {
-        public override void Configure(EntityTypeBuilder<UserIndustry> builder)
+        public override void Configure(EntityTypeBuilder<CompanyIndustry> builder)
         {
             base.Configure(builder);
-            builder.HasKey(x => new { x.UserId, x.IndustryId });
+            builder.HasKey(x => new { x.CompanyId, x.IndustryId });
 
             builder
-                   .HasOne(x => x.User)
-                   .WithMany(x => x.UserIndustries)
-                   .HasForeignKey(x => x.UserId);
-
+                   .HasOne(x => x.Company)
+                   .WithMany(x => x.CompanyIndustries)
+                   .HasForeignKey(x => x.CompanyId);
 
             builder
                     .HasOne(x => x.Industry)
-                    .WithMany(x => x.UserIndustries)
+                    .WithMany(x => x.CompanyIndustries)
                     .HasForeignKey(x => x.IndustryId);
         }
     }

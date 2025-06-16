@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.Data.Configuration
 {
-    public class WorkShopReviewCfg : AuditableEntityCfg<WorkShopReview>, IEntityTypeConfiguration<WorkShopReview>
+    public class WorkShopReviewCfg : AuditableEntityCfg<WorkshopReview>, IEntityTypeConfiguration<WorkshopReview>
     {
-        public override void Configure(EntityTypeBuilder<WorkShopReview> builder)
+        public override void Configure(EntityTypeBuilder<WorkshopReview> builder)
         {
             base.Configure(builder);
             builder.HasKey(x => x.Id);

@@ -23,8 +23,10 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.VideoAdsUrl).IsRequired().HasMaxLength(500);
             builder.Property(x => x.ThumnalUrl).IsRequired().HasMaxLength(500);
-            builder.Property(x => x.Order).ValueGeneratedOnAdd();
             builder.Property(x => x.Status).HasDefaultValue(CourseStatusType.Draft).HasConversion(appToDb => appToDb.ToString(), dbToApp => System.Enum.Parse<CourseStatusType>(dbToApp));
+            builder.HasOne(x => x.Industry).WithMany(x => x.Courses)
+                .HasForeignKey(x => x.IndustryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
