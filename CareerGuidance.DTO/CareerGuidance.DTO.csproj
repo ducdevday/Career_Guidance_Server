@@ -10,4 +10,10 @@
     <PackageReference Include="AutoMapper" Version="14.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Nested\" />
+    <Folder Include="Response\" />
+    <Folder Include="Request\" />
+  </ItemGroup>
+
 </Project>

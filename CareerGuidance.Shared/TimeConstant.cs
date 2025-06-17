@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CareerGuidance.Shared
+{
+    public class TimeConstant
+    {
+        public const int AccessTokenExpiryMinutes = 10;
+        public const int RefreshTokenExpiryDays = 30;
+    }
+}
