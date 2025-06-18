@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.DataAccess.Data.Interface
 {
-    public interface IWorkShopReviewData
+    public interface IWorkshopReviewData
     {
     }
 }

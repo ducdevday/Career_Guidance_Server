@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.DataAccess.Data.Interface
 {
-    internal interface IMentorData
+    public interface IMentorData
     {
     }
 }
