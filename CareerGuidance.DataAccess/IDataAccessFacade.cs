@@ -40,12 +40,13 @@ namespace CareerGuidance.DataAccess
 
     public class DataAccessFacade : IDataAccessFacade
     {
-        private readonly CareerGuidanceDBContext _context = new CareerGuidanceDBContext();
+        private readonly CareerGuidanceDBContext _context;
 
-        public DataAccessFacade()
+        public DataAccessFacade(CareerGuidanceDBContext context)
         {
-
+            _context = context;
         }
+
         private AddressData _addressData;
         public IAddressData AddressData
         {

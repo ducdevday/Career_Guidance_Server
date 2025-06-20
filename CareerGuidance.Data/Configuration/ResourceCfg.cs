@@ -1,5 +1,6 @@
 ﻿using CareerGuidance.Data.Entity;
 using CareerGuidance.Data.Enum;
+using CareerGuidance.Shared.Constant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -17,8 +18,8 @@ namespace CareerGuidance.Data.Configuration
             base.Configure(builder);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
-            builder.Property(x => x.SourceUrl).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
+            builder.Property(x => x.SourceUrl).IsRequired().HasMaxLength(ValidationConstant.URL_MAXLENGTH);
             builder.Property(x => x.SourceType).IsRequired();
             builder.HasOne(x => x.Lesson)
                 .WithMany(x => x.Resources)

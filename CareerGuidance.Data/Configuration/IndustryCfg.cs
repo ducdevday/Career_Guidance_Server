@@ -1,4 +1,5 @@
 ﻿using CareerGuidance.Data.Entity;
+using CareerGuidance.Shared.Constant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -18,7 +19,7 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
         }
     }
 }

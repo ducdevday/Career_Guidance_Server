@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CareerGuidance.DataAccess\CareerGuidance.DataAccess.csproj" />
+    <ProjectReference Include="..\CareerGuidance.DTO\CareerGuidance.DTO.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using CareerGuidance.Data.Entity;
+using CareerGuidance.Shared.Constant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -18,7 +19,7 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Content)
                 .IsRequired()
-                .HasMaxLength(500);
+                .HasMaxLength(ValidationConstant.CONTENT_MAXLENGTH);
             builder.HasOne(x => x.QnAPost)
                 .WithMany(x => x.QnAComments)
                 .HasForeignKey(x => x.QnAPostId)

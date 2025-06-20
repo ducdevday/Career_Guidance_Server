@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CareerGuidance.Setting\CareerGuidance.Setting.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
   </ItemGroup>
 
 </Project>

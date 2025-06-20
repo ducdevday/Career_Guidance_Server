@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,16 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CareerGuidance.Data\CareerGuidance.Data.csproj" />
+    <ProjectReference Include="..\CareerGuidance.BussinessLogic\CareerGuidance.BussinessLogic.csproj" />
+    <ProjectReference Include="..\CareerGuidance.DTO\CareerGuidance.DTO.csproj" />
     <ProjectReference Include="..\CareerGuidance.Setting\CareerGuidance.Setting.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
   </ItemGroup>
 
 </Project>

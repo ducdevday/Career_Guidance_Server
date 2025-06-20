@@ -1,4 +1,5 @@
 ﻿using CareerGuidance.Data.Entity;
+using CareerGuidance.Data.Interceptors;
 using CareerGuidance.Setting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,8 +13,14 @@ namespace CareerGuidance.Data
 {
     public class CareerGuidanceDBContext : DbContext
     {
-        public CareerGuidanceDBContext() : base()
+        private readonly AuditSaveChangesInterceptor _auditInterceptor;
+
+        public CareerGuidanceDBContext(
+        DbContextOptions<CareerGuidanceDBContext> options,
+        AuditSaveChangesInterceptor auditInterceptor)
+        : base(options)
         {
+            _auditInterceptor = auditInterceptor;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,10 +30,6 @@ namespace CareerGuidance.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CareerGuidanceDBContext).Assembly);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(EnviromentSetting.Instance.ConnectionString);
-        }
 
         public DbSet<Address> Address { get; set; }
         public DbSet<Blog> Blog { get; set; }

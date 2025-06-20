@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CareerGuidance.Data.Enum;
+using CareerGuidance.Shared.Constant;
 
 namespace CareerGuidance.Data.Configuration
 {
@@ -20,13 +21,13 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(m => m.FirstName)
                                             .IsRequired()
-                                            .HasMaxLength(100);
+                                            .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
             builder.Property(m => m.LastName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
-            builder.Property(m => m.MiddleName).HasMaxLength(100);
+            builder.Property(m => m.MiddleName).HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
             builder.Property(s => s.Gender)
                                          .IsRequired()
@@ -44,10 +45,10 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(x => x.Email)
                    .IsRequired()
-                   .HasMaxLength(256);
+                   .HasMaxLength(ValidationConstant.EMAIL_MAXLENGTH);
 
             builder.Property(x => x.PhoneNumber)
-                   .HasMaxLength(20);
+                   .HasMaxLength(ValidationConstant.PHONE_MAXLENGTH);
 
             builder.Property(x => x.Password)
                    .IsRequired();
@@ -59,7 +60,7 @@ namespace CareerGuidance.Data.Configuration
                                  dbToApp => System.Enum.Parse<RoleType>(dbToApp));
 
             builder.Property(x => x.Status)
-                   .IsRequired()
+                   .HasDefaultValue(AccountStatusType.Unverified)
                    .HasConversion(
                                  appToDb => appToDb.ToString(),
                                  dbToApp => System.Enum.Parse<AccountStatusType>(dbToApp));

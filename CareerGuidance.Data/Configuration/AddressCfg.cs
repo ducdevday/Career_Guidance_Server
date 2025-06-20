@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CareerGuidance.Shared.Constant;
 
 namespace CareerGuidance.Data.Configuration
 {
@@ -20,31 +21,31 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             builder.Property(x => x.StreetNo)
-                   .HasMaxLength(255);
+                   .HasMaxLength(ValidationConstant.STREET_NO_MAXLENGTH);
 
             builder.Property(x => x.WardId)
                    .IsRequired()
-                   .HasMaxLength(20);
+                   .HasMaxLength(ValidationConstant.WARD_ID_MAXLENGTH);
 
             builder.Property(x => x.WardName)
                    .IsRequired()
-                   .HasMaxLength(100);
+                   .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
             builder.Property(x => x.DistrictId)
                    .IsRequired()
-                   .HasMaxLength(20);
+                   .HasMaxLength(ValidationConstant.DISTRICT_ID_MAXLENGTH);
 
             builder.Property(x => x.DistrictName)
                    .IsRequired()
-                   .HasMaxLength(100);
+                   .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
             builder.Property(x => x.ProvinceId)
                    .IsRequired()
-                   .HasMaxLength(20);
+                   .HasMaxLength(ValidationConstant.PROVINCE_ID_MAXLENGTH);
 
             builder.Property(x => x.ProvinceName)
                    .IsRequired()
-                   .HasMaxLength(100);
+                   .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
         }
     }
 }

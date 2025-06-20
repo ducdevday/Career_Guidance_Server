@@ -10,11 +10,9 @@ namespace CareerGuidance.Data.Entity
     {
         public bool Active { get; set; } 
         public DateTime InsertDate { get; set; }
-        public Guid InsertById { get; set; }
-        public User InsertBy { get; set; }
+        public Guid? InsertById { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public Guid UpdatedById { get; set; }
-        public User UpdatedBy { get; set; }
+        public Guid? UpdatedById { get; set; }
 
     }
 }

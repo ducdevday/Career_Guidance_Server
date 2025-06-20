@@ -87,5 +87,27 @@ namespace CareerGuidance.Setting
                 return _smtpAppPassword;
             }
         } 
+
+        public string Issuer
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_issuer))
+                    return _issuer;
+                _issuer = Environment.GetEnvironmentVariable("CareerGuidanceIssuer") ?? throw new InvalidCastException("Issuer Not Found");
+                return _issuer;
+            }
+        }
+
+        public string Audience
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_audience))
+                    return _audience;
+                _audience = Environment.GetEnvironmentVariable("CareerGuidanceAudience") ?? throw new InvalidCastException("Audience Not Found");
+                return _audience;
+            }
+        }
     }
 }

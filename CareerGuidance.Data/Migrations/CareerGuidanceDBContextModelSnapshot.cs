@@ -45,7 +45,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -65,7 +65,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -82,10 +82,6 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Address");
                 });
@@ -110,7 +106,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("IndustryId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -138,7 +134,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -147,10 +143,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Blog");
                 });
@@ -176,7 +168,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -185,7 +177,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -194,10 +186,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("BlogComment");
                 });
@@ -223,7 +211,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -237,7 +225,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -246,10 +234,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Chapter");
                 });
@@ -288,7 +272,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -308,7 +292,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<string>("TiktokUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -321,10 +305,6 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasIndex("AddressId")
                         .IsUnique();
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Company");
                 });
@@ -342,13 +322,13 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -357,10 +337,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("CompanyId", "IndustryId");
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("UserIndustry");
                 });
@@ -385,7 +361,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("IndustryId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -416,7 +392,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -430,10 +406,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Course");
                 });
@@ -451,7 +423,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -462,17 +434,13 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Industry");
                 });
@@ -501,7 +469,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -517,7 +485,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -526,10 +494,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Instructor");
                 });
@@ -554,7 +518,7 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -570,7 +534,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -584,10 +548,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChapterId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Lesson");
                 });
@@ -618,7 +578,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("IndustryId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -633,7 +593,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<string>("TiktokUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -648,10 +608,6 @@ namespace CareerGuidance.Data.Migrations
                         .IsUnique();
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Mentor");
                 });
@@ -671,13 +627,13 @@ namespace CareerGuidance.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("Downs")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -686,7 +642,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("QnAPostId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -697,11 +653,7 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("QnAPostId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("QnAComment");
                 });
@@ -717,7 +669,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -732,7 +684,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("QnACommentId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -740,11 +692,7 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("QnACommentId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("QnACommentInteraction");
                 });
@@ -769,7 +717,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int?>("Downs")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -780,10 +728,10 @@ namespace CareerGuidance.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -793,10 +741,6 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("QnAPost");
                 });
@@ -812,7 +756,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -827,7 +771,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("QnAPostId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -835,11 +779,7 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("QnAPostId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("QnAPostInteraction");
                 });
@@ -857,7 +797,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -879,7 +819,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -887,11 +827,7 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("LessonId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Resource");
                 });
@@ -930,7 +866,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -950,7 +886,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<string>("TiktokUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -963,10 +899,6 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasIndex("AddressId")
                         .IsUnique();
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("School");
                 });
@@ -984,13 +916,13 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -999,10 +931,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("SchoolId", "IndustryId");
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("SchoolIndustry");
                 });
@@ -1033,7 +961,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("IndustryId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -1065,7 +993,7 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1077,10 +1005,6 @@ namespace CareerGuidance.Data.Migrations
                         .IsUnique();
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Tour");
                 });
@@ -1103,7 +1027,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -1115,7 +1039,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("TourId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1123,11 +1047,7 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("TourId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("TourReview");
                 });
@@ -1151,8 +1071,8 @@ namespace CareerGuidance.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -1163,7 +1083,7 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -1193,9 +1113,11 @@ namespace CareerGuidance.Data.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Verified");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1206,12 +1128,8 @@ namespace CareerGuidance.Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("User");
                 });
@@ -1229,13 +1147,13 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1244,10 +1162,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("UserId", "CourseId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("UserEnrollCourse");
                 });
@@ -1265,13 +1179,13 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1279,11 +1193,7 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("UserId", "TourId");
 
-                    b.HasIndex("InsertById");
-
                     b.HasIndex("TourId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("UserEnrollTour");
                 });
@@ -1301,23 +1211,19 @@ namespace CareerGuidance.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId", "WorkshopId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.HasIndex("WorkshopId");
 
@@ -1350,7 +1256,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("IndustryId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -1382,7 +1288,7 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1394,10 +1300,6 @@ namespace CareerGuidance.Data.Migrations
                         .IsUnique();
 
                     b.HasIndex("IndustryId");
-
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Workshop");
                 });
@@ -1418,7 +1320,7 @@ namespace CareerGuidance.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("InsertById")
+                    b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InsertDate")
@@ -1427,7 +1329,7 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UpdatedById")
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -1438,32 +1340,9 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertById");
-
-                    b.HasIndex("UpdatedById");
-
                     b.HasIndex("WorkShopId");
 
                     b.ToTable("WorkshopReview");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Address", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Blog", b =>
@@ -1474,23 +1353,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Industry");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.BlogComment", b =>
@@ -1501,23 +1364,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Blog");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Chapter", b =>
@@ -1528,23 +1375,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Course");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Company", b =>
@@ -1555,23 +1386,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Address");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.CompanyIndustry", b =>
@@ -1588,25 +1403,9 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Company");
 
                     b.Navigation("Industry");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Course", b =>
@@ -1617,42 +1416,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Industry");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Industry", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Instructor", b =>
@@ -1663,23 +1427,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Course");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Lesson", b =>
@@ -1690,23 +1438,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Chapter");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Mentor", b =>
@@ -1723,152 +1455,53 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Address");
 
                     b.Navigation("Industry");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.QnAComment", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.QnAPost", "QnAPost")
                         .WithMany("QnAComments")
                         .HasForeignKey("QnAPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
                     b.Navigation("QnAPost");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.QnACommentInteraction", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.QnAComment", "QnAComment")
                         .WithMany("QnACommentInteractions")
                         .HasForeignKey("QnACommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
                     b.Navigation("QnAComment");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.QnAPost", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.QnAPostInteraction", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.QnAPost", "QnAPost")
                         .WithMany("QnAPostInteractions")
                         .HasForeignKey("QnAPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
                     b.Navigation("QnAPost");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Resource", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.Lesson", "Lesson")
                         .WithMany("Resources")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
                     b.Navigation("Lesson");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.School", b =>
@@ -1879,23 +1512,7 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Address");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.SchoolIndustry", b =>
@@ -1906,31 +1523,15 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.School", "School")
                         .WithMany("SchoolIndustries")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Industry");
 
-                    b.Navigation("InsertBy");
-
                     b.Navigation("School");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Tour", b =>
@@ -1947,71 +1548,20 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Address");
 
                     b.Navigation("Industry");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.TourReview", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.Tour", "Tour")
                         .WithMany("TourReviews")
                         .HasForeignKey("TourId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
                     b.Navigation("Tour");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.User", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollCourse", b =>
@@ -2022,18 +1572,6 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.User", "User")
                         .WithMany("UserEnrollCourses")
                         .HasForeignKey("UserId")
@@ -2042,31 +1580,15 @@ namespace CareerGuidance.Data.Migrations
 
                     b.Navigation("Course");
 
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
-
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollTour", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.Tour", "Tour")
                         .WithMany("UserEnrollTours")
                         .HasForeignKey("TourId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CareerGuidance.Data.Entity.User", "User")
@@ -2075,29 +1597,13 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("InsertBy");
-
                     b.Navigation("Tour");
-
-                    b.Navigation("UpdatedBy");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollWorkshop", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.User", "User")
                         .WithMany("UserEnrollWorkshops")
                         .HasForeignKey("UserId")
@@ -2109,10 +1615,6 @@ namespace CareerGuidance.Data.Migrations
                         .HasForeignKey("WorkshopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
 
                     b.Navigation("User");
 
@@ -2133,50 +1635,18 @@ namespace CareerGuidance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Address");
 
                     b.Navigation("Industry");
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.WorkshopReview", b =>
                 {
-                    b.HasOne("CareerGuidance.Data.Entity.User", "InsertBy")
-                        .WithMany()
-                        .HasForeignKey("InsertById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CareerGuidance.Data.Entity.Workshop", "Workshop")
                         .WithMany("WorkshopReviews")
                         .HasForeignKey("WorkShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("InsertBy");
-
-                    b.Navigation("UpdatedBy");
 
                     b.Navigation("Workshop");
                 });

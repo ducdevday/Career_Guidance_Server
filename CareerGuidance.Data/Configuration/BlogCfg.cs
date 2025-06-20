@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CareerGuidance.Data.Enum;
+using CareerGuidance.Shared.Constant;
 
 namespace CareerGuidance.Data.Configuration
 {
@@ -22,11 +23,11 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(x => x.ThumnailUrl)
                    .IsRequired()
-                   .HasMaxLength(500);
+                   .HasMaxLength(ValidationConstant.URL_MAXLENGTH);
 
             builder.Property(x => x.Title)
                    .IsRequired()
-                   .HasMaxLength(200);
+                   .HasMaxLength(ValidationConstant.TITLE_MAXLENGTH);
 
             builder.Property(x => x.Content)
                    .IsRequired();

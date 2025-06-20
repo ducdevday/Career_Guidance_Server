@@ -1,5 +1,6 @@
 ﻿using CareerGuidance.Data.Entity;
 using CareerGuidance.Data.Enum;
+using CareerGuidance.Shared.Constant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -17,9 +18,9 @@ namespace CareerGuidance.Data.Configuration
             base.Configure(builder);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
             builder.Property(x => x.Description).IsRequired();
-            builder.Property(x => x.Thumnail).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.Thumnail).IsRequired().HasMaxLength(ValidationConstant.URL_MAXLENGTH);
             builder.Property(x => x.Duration).IsRequired();
             builder.Property(x => x.TimeType).IsRequired().HasConversion(appToDb => appToDb.ToString(), dbToApp => System.Enum.Parse<TimeType>(dbToApp));
             builder.Property(x => x.Status).IsRequired().HasDefaultValue(TourStatusType.Draft).IsRequired().HasConversion(appToDb => appToDb.ToString(), dbToApp => System.Enum.Parse<TourStatusType>(dbToApp));

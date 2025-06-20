@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CareerGuidance.Shared
+namespace CareerGuidance.Shared.Constant
 {
     public class TimeConstant
     {

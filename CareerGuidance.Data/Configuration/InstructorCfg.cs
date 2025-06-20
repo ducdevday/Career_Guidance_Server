@@ -1,4 +1,5 @@
 ﻿using CareerGuidance.Data.Entity;
+using CareerGuidance.Shared.Constant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -19,15 +20,15 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
             builder.Property(x => x.Position)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
 
             builder.Property(x => x.Bio)
                 .IsRequired()
-                .HasMaxLength(1000);
+                .HasMaxLength(ValidationConstant.BIO_MAXLENGTH);
 
             builder.HasOne(x => x.Course).WithMany(x => x.Instructors)
                 .HasForeignKey(x => x.CourseId)

@@ -1,4 +1,5 @@
 ﻿using CareerGuidance.Data.Entity;
+using CareerGuidance.Shared.Constant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -20,7 +21,7 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(x => x.Rating).IsRequired();
 
-            builder.Property(x => x.Content).IsRequired().HasMaxLength(255);
+            builder.Property(x => x.Content).IsRequired().HasMaxLength(ValidationConstant.CONTENT_MAXLENGTH);
 
             builder.HasOne(x => x.Workshop).WithMany(x => x.WorkshopReviews).HasForeignKey(x => x.WorkShopId);
         }

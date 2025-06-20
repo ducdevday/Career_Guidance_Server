@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Nested\" />
-    <Folder Include="Response\" />
-    <Folder Include="Request\" />
+    <ProjectReference Include="..\CareerGuidance.Data\CareerGuidance.Data.csproj" />
   </ItemGroup>
 
 </Project>

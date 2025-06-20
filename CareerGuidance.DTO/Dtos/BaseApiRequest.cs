@@ -1,6 +1,6 @@
 ﻿namespace EducationChallengerBE.Shared.Dtos
 {
-    public class BaseApiRequest
+    public abstract class BaseApiRequest
     {
         public int? PageSize { get; set; }
         public int? PageIndex { get; set; }

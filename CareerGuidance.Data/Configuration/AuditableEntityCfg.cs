@@ -16,19 +16,6 @@ namespace CareerGuidance.Data.Configuration
         {
             builder.Property(x => x.Active)
                    .HasDefaultValue(true);
-
-            builder.Property(x => x.InsertDate)
-                   .IsRequired();
-
-            builder.HasOne(x => x.InsertBy)
-                   .WithMany()                    
-                   .HasForeignKey(x => x.InsertById)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(x => x.UpdatedBy)
-                   .WithMany()
-                   .HasForeignKey(x => x.UpdatedById)
-                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
