@@ -22,12 +22,55 @@ namespace CareerGuidance.WebAPI.Controllers
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
-        [HttpPost("/LogIn")]
-        public async Task<IActionResult> LogIn([FromBody] LoginRequest loginInRequest)
+
+        [HttpPost("/Login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginInRequest)
         {
             var result = await _authBusiness.LoginAsync(loginInRequest);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
+
+        [HttpPost("/RefreshToken")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var result = await _authBusiness.RefreshTokenAsync();
+            HttpContext.Response.StatusCode = (int)result.StatusCode;
+            return new JsonResult(result);
+        }
+
+        [HttpPost("/Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _authBusiness.LogoutAsync();
+            HttpContext.Response.StatusCode = (int)result.StatusCode;
+            return new JsonResult(result);
+        }
+
+        [HttpPost("/VetifyEmailSignUp")]
+        public async Task<IActionResult> VetifyEmailSignUp([FromBody] VerifyEmailSignUpRequest vetifyEmailSignUpRequest)
+        {
+            var result = await _authBusiness.VetifyEmailSignUpAsync(vetifyEmailSignUpRequest);
+            HttpContext.Response.StatusCode = (int)result.StatusCode;
+            return new JsonResult(result);
+        }
+
+        [HttpPost("/ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest forgotPasswordRequest)
+        {
+            var result = await _authBusiness.ForgotPasswordAsync(forgotPasswordRequest);
+            HttpContext.Response.StatusCode = (int)result.StatusCode;
+            return new JsonResult(result);
+        }
+
+        [HttpPost("/SetNewPassword")]
+        public async Task<IActionResult> SetNewPassword([FromBody] SetNewPasswordRequest setNewPasswordRequest)
+        { 
+            var result = await _authBusiness.SetNewPasswordAsync(setNewPasswordRequest);
+            HttpContext.Response.StatusCode = (int)result.StatusCode;
+            return new JsonResult(result);
+        }
+
+
     }
 }

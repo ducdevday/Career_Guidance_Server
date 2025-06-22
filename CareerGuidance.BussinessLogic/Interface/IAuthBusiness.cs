@@ -11,7 +11,12 @@ namespace CareerGuidance.BussinessLogic.Interface
 {
     public interface IAuthBusiness
     {
-        public Task<SignUpResponse> SignUpAsync(SignUpRequest signUpRequest);
-        public Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
+        public Task<SignUpResponse> SignUpAsync(SignUpRequest request);
+        public Task<LoginResponse> LoginAsync(LoginRequest request);
+        public Task<VerifyEmailSignUpResponse> VetifyEmailSignUpAsync(VerifyEmailSignUpRequest request);
+        public Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordRequest forgotPasswordRequest);
+        public Task<SetNewPasswordResponse> SetNewPasswordAsync(SetNewPasswordRequest setNewPasswordRequest);
+        public Task<RefreshTokenResponse> RefreshTokenAsync();
+        public Task<LogoutResponse> LogoutAsync();
     }
 }

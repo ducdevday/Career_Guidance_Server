@@ -19,11 +19,20 @@ namespace CareerGuidance.DataAccess.Data.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email, bool asNoTracking = false)
         {
-            return await _context.User
-                .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Email == email);
+            IQueryable<User> query = _context.User;
+            if (asNoTracking)
+            {
+                query = query.AsNoTracking();
+            }
+            return await query.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public Task<User> UpdateUserAsync(User user)
+        {
+            var updatedUser = _context.User.Update(user);
+            return Task.FromResult(updatedUser.Entity);
         }
 
         public async Task<bool> IsExistedUserAsync(string email, string phoneNumber)
@@ -40,6 +49,11 @@ namespace CareerGuidance.DataAccess.Data.Repositories
         {
             var addedUser = _context.User.Add(user);
             return Task.FromResult(addedUser.Entity);
+        }
+
+        public Task<User> UpdateUser(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

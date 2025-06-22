@@ -21,5 +21,8 @@ namespace CareerGuidance.Shared.Constant
         public const int BIO_MAXLENGTH = 1000;
         public const int EMAIL_MAXLENGTH = 100;
         public const int PHONE_MAXLENGTH = 20;
+        public const int EMAIL_VERIFICATION_CODE_LENGTH = 6;
+        public const int PASSWORD_MAXLENGTH = 100;
+        public const int PASSWORD_MINLENGHT = 6;
     }
 }

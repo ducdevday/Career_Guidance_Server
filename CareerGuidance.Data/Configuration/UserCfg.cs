@@ -60,7 +60,7 @@ namespace CareerGuidance.Data.Configuration
                                  dbToApp => System.Enum.Parse<RoleType>(dbToApp));
 
             builder.Property(x => x.Status)
-                   .HasDefaultValue(AccountStatusType.Unverified)
+                   .IsRequired()
                    .HasConversion(
                                  appToDb => appToDb.ToString(),
                                  dbToApp => System.Enum.Parse<AccountStatusType>(dbToApp));

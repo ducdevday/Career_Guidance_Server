@@ -13,14 +13,11 @@ namespace CareerGuidance.Data
 {
     public class CareerGuidanceDBContext : DbContext
     {
-        private readonly AuditSaveChangesInterceptor _auditInterceptor;
-
-        public CareerGuidanceDBContext(
-        DbContextOptions<CareerGuidanceDBContext> options,
-        AuditSaveChangesInterceptor auditInterceptor)
-        : base(options)
+        private readonly EnviromentSetting _setting = EnviromentSetting.Instance;
+        private readonly AuditSaveChangesInterceptor _auditInterceptor = new AuditSaveChangesInterceptor();
+        public CareerGuidanceDBContext()
+        : base()
         {
-            _auditInterceptor = auditInterceptor;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +27,11 @@ namespace CareerGuidance.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CareerGuidanceDBContext).Assembly);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_setting.ConnectionString);
+            optionsBuilder.AddInterceptors(_auditInterceptor);
+        }
 
         public DbSet<Address> Address { get; set; }
         public DbSet<Blog> Blog { get; set; }
@@ -55,5 +57,11 @@ namespace CareerGuidance.Data
         public DbSet<CompanyIndustry> UserIndustry { get; set; }
         public DbSet<Workshop> Workshop { get; set; }
         public DbSet<WorkshopReview> WorkshopReview { get; set; }
+        public DbSet<EmailVerification> EmailVerification { get; set; }
+        public DbSet<Notification> Notification { get; set; }
+        public DbSet<Template> Template { get; set; }
+        public DbSet<TemplateVersion> TemplateVersion { get; set; }
+        public DbSet<TemplateField> TemplateField { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
     }
 }

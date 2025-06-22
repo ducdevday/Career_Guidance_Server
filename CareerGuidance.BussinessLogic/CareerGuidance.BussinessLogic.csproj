@@ -14,7 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CareerGuidance.DataAccess\CareerGuidance.DataAccess.csproj" />
     <ProjectReference Include="..\CareerGuidance.DTO\CareerGuidance.DTO.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Email\CareerGuidance.Email.csproj" />
     <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Validation\CareerGuidance.Validation.csproj" />
   </ItemGroup>
 
 </Project>

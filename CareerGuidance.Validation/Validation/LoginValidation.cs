@@ -1,12 +1,7 @@
 ﻿using CareerGuidance.DTO.Request;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CareerGuidance.BussinessLogic.Validation
+namespace CareerGuidance.Validation.Validation
 {
     public class LoginValidation : AbstractValidator<LoginRequest>
     {

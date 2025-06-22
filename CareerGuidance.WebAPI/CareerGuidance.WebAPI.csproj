@@ -16,6 +16,7 @@
     <ProjectReference Include="..\CareerGuidance.DTO\CareerGuidance.DTO.csproj" />
     <ProjectReference Include="..\CareerGuidance.Setting\CareerGuidance.Setting.csproj" />
     <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Validation\CareerGuidance.Validation.csproj" />
   </ItemGroup>
 
 </Project>

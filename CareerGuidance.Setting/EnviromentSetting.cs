@@ -52,7 +52,7 @@ namespace CareerGuidance.Setting
             get { 
                 if(!string.IsNullOrEmpty(_smtpServer)) 
                     return _smtpServer;
-                _smtpServer = Environment.GetEnvironmentVariable("SmtpUrl") ?? throw new InvalidCastException("SMTP Server Not Found");
+                _smtpServer = Environment.GetEnvironmentVariable("SmtpServer") ?? throw new InvalidCastException("SMTP Server Not Found");
                 return _smtpServer;
             }
         }

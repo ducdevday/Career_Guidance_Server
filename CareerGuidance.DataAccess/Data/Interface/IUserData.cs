@@ -12,6 +12,7 @@ namespace CareerGuidance.DataAccess.Data.Interface
         public Task<bool> IsExistedUserAsync(string email, string phoneNumber);
         public Task<bool> IsExistedUserAsync(string email);
         public Task<User> SignUpAccountAsync(User user);
-        public Task<User?> GetUserByEmailAsync(string email);
+        public Task<User?> GetUserByEmailAsync(string email, bool asNoTracking = false);
+        public Task<User> UpdateUser(User user);
     }
 }

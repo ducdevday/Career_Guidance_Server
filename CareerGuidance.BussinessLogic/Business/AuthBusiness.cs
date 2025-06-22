@@ -6,43 +6,31 @@ using CareerGuidance.DataAccess;
 using CareerGuidance.DTO.Dtos.Nested;
 using CareerGuidance.DTO.Request;
 using CareerGuidance.DTO.Response;
+using CareerGuidance.Email.Factory;
+using CareerGuidance.Email.Templates;
 using CareerGuidance.Setting;
 using CareerGuidance.Shared.Constant;
 using CareerGuidance.Shared.Util;
-using FluentValidation;
+using CareerGuidance.Validation.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
-using System.Runtime;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CareerGuidance.BussinessLogic.Business
 {
-    public class AuthBusiness : IAuthBusiness
+    public class AuthBusiness : BaseBusiness, IAuthBusiness
     {
-        private readonly IDataAccessFacade _context;
-        private readonly IMapper _mapper;
-        private readonly IValidator<SignUpRequest> _signUpValidator;
-        private readonly IValidator<LoginRequest> _loginValidator;
-
-        public AuthBusiness(IDataAccessFacade context, IMapper mapper, IValidator<SignUpRequest> signUpValidator, IValidator<LoginRequest> loginValidator)
+        public AuthBusiness(IDataAccessFacade context, IMapper mapper, IValidationService validation, IHttpContextAccessor httpContextAccessor) : base(context, mapper, validation, httpContextAccessor)
         {
-            _context = context;
-            _mapper = mapper;
-            _signUpValidator = signUpValidator;
-            _loginValidator = loginValidator;
         }
 
         public async Task<SignUpResponse> SignUpAsync(SignUpRequest signUpRequest)
         {
-            var validation = await _signUpValidator.ValidateAsync(signUpRequest);
+            var validation = await _validation.ValidateAsync(signUpRequest);
 
             if (!validation.IsValid)
             {
@@ -64,66 +52,125 @@ namespace CareerGuidance.BussinessLogic.Business
             {
                 return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create user" }, false);
             }
+
+            EmailVerification emailVerification = _mapper.Map<EmailVerification>(user);
+            emailVerification.Type = EmailVerificationType.SignUp;
+
+            var addedemailVerification = await _context.EmailVerificationData.AddEmailVerificationAsync(emailVerification);
+            if (addedemailVerification == null)
+            {
+                return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create email verification" }, false);
+            }
+
             await _context.Commit();
+
+
+            var factory = new MessageDeliveryFactory();
+            var deliveryMethods = factory.Create(NotificationType.Email);
+            deliveryMethods.SetMode(MessageDeliveryMode.Template)
+                            .SetUser(createdUser)
+                            .SetSender(EnviromentSetting.Instance.SmtpEmail)
+                            .SetRecipient(createdUser.Email)
+                            .SetDisplayName(NotificationConstant.COMPANY_FULLNAME)
+                            .SetExternalFields(new List<ExternalField>() {
+                                new ExternalField(){
+                                    Name = "VerificationCode",
+                                    Value = emailVerification.Token,
+                                    IsBody = true
+                                },
+                                new ExternalField(){
+                                    Name = "ExpiredAt",
+                                    Value = TimeConstant.EmailVerificationTokenExpiruMinutes.ToString(),
+                                    IsBody = true
+                                }
+                                })
+                            .SetTemplate(TemplateSample.AccountSignUpTemplate);
+
+            await deliveryMethods.Send();
 
             return new SignUpResponse(HttpStatusCode.OK, new List<string> { "User signed up successfully" }, true);
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
         {
-            var validation = await _loginValidator.ValidateAsync(loginRequest);
+            var validation = await _validation.ValidateAsync(loginRequest);
             if (!validation.IsValid)
             {
                 return new LoginResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), null);
             }
 
-            var user = await _context.UserData.GetUserByEmailAsync(loginRequest.Email);
+            var user = await _context.UserData.GetUserByEmailAsync(loginRequest.Email, asNoTracking: true);
             if (user == null)
             {
                 return new LoginResponse(HttpStatusCode.BadRequest, new List<string> { "User does not exist" }, null);
             }
 
-            if (!PasswordUtil.ValidatePassword(loginRequest.Password, user.Password))
+            if (!SecretUtil.ValidatePassword(loginRequest.Password, user.Password))
             {
                 return new LoginResponse(HttpStatusCode.BadRequest, new List<string> { "Incorrect password" }, null);
+            }
+
+            if (user.Status == AccountStatusType.Unverified)
+            { 
+                return new LoginResponse(HttpStatusCode.Forbidden, new List<string> { "Account is not verified" }, null);
             }
 
             var accessToken = GenerateAccessToken(user.Id, user.Role);
             var refreshToken = GenerateRefreshToken();
 
+            var refreshTokenEntity = _mapper.Map<RefreshToken>(refreshToken);
+            await _context.RefreshTokenData.AddRefreshTokenAsync(refreshTokenEntity);
+
+            ResponseCookies.Append(CookieConstant.ACCESS_TOKEN, accessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(TimeConstant.AccessTokenExpiryMinutes)
+            });
+
+            ResponseCookies.Append(CookieConstant.REFRESH_TOKEN, refreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)
+            });
+
+            await _context.Commit();
+
             return new LoginResponse(HttpStatusCode.OK, new List<string> { "Login successful" }, new LoginNested
             {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken,
                 UserId = user.Id,
                 FullName = $"{user.LastName}{(string.IsNullOrWhiteSpace(user.MiddleName) ? "" : " " + user.MiddleName)} {user.FirstName}",
                 Role = user.Role
             });
-
         }
 
         private string GenerateAccessToken(Guid userId, RoleType role)
         {
             var key = Encoding.ASCII.GetBytes(EnviromentSetting.Instance.SecretKey);
+
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Role, role.ToString())
+                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                 new Claim(ClaimTypes.Role, role.ToString())
             };
 
+            var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(TimeConstant.AccessTokenExpiryMinutes),
                 Issuer = EnviromentSetting.Instance.Issuer,
                 Audience = EnviromentSetting.Instance.Audience,
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials =
+                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            return new JwtSecurityTokenHandler().WriteToken(
-                new JwtSecurityTokenHandler().CreateToken(tokenDescriptor));
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public string GenerateRefreshToken()
@@ -132,5 +179,219 @@ namespace CareerGuidance.BussinessLogic.Business
         }
 
 
+        public async Task<VerifyEmailSignUpResponse> VetifyEmailSignUpAsync(VerifyEmailSignUpRequest request)
+        {
+            var validation = await _validation.ValidateAsync(request);
+            if (!validation.IsValid)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.BadRequest,
+                    validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
+            }
+            var user = await _context.UserData.GetUserByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
+            }
+            if (user.Status == AccountStatusType.Verified)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.Conflict, new List<string> { "Email is already verified" }, false);
+            }
+
+            var emailVerification = await _context.EmailVerificationData.GetEmailVerificationByUserIdAsync(user.Id, EmailVerificationType.SignUp);
+            if (emailVerification == null)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.NotFound, new List<string> { "Email verification not found" }, false);
+            }
+
+            if (emailVerification.Token != request.Code)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.BadRequest, new List<string> { "Invalid verification code" }, false);
+            }
+
+            if (emailVerification.ExpiresAt < DateTime.UtcNow)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.Gone, new List<string> { "Verification code has expired" }, false);
+            }
+
+            if (emailVerification.IsUsed)
+            {
+                return new VerifyEmailSignUpResponse(HttpStatusCode.Conflict, new List<string> { "Verification code has already been used" }, false);
+            }
+
+            user.Status = AccountStatusType.Verified;
+            emailVerification.IsUsed = true;
+
+            await _context.Commit();
+
+            return new VerifyEmailSignUpResponse(HttpStatusCode.OK, new List<string> { "Email verified successfully" }, true);
+        }
+        public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordRequest request)
+        {
+            var validation = await _validation.ValidateAsync(request);
+            if (!validation.IsValid)
+            {
+                return new ForgotPasswordResponse(HttpStatusCode.BadRequest,
+                    validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
+            }
+            var user = await _context.UserData.GetUserByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return new ForgotPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
+            }
+
+            if (user.Status == AccountStatusType.Unverified)
+            {
+                return new ForgotPasswordResponse(HttpStatusCode.Forbidden, new List<string> { "Email is not verified" }, false);
+            }
+
+            var emailVerification = _mapper.Map<EmailVerification>(user);
+            emailVerification.Type = EmailVerificationType.ForgotPassword;
+
+            var addedemailVerification = await _context.EmailVerificationData.AddEmailVerificationAsync(emailVerification);
+            if (addedemailVerification == null)
+            {
+                return new ForgotPasswordResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create email verification" }, false);
+            }
+            await _context.Commit();
+
+            var factory = new MessageDeliveryFactory();
+            var deliveryMethods = factory.Create(NotificationType.Email);
+            deliveryMethods.SetMode(MessageDeliveryMode.Template)
+                            .SetUser(user)
+                            .SetSender(EnviromentSetting.Instance.SmtpEmail)
+                            .SetRecipient(user.Email)
+                            .SetDisplayName(NotificationConstant.COMPANY_FULLNAME)
+                            .SetExternalFields(new List<ExternalField>() {
+                                new ExternalField(){
+                                    Name = "VerificationCode",
+                                    Value = emailVerification.Token,
+                                    IsBody = true
+                                },
+                                new ExternalField(){
+                                    Name = "ExpiredAt",
+                                    Value = TimeConstant.EmailVerificationTokenExpiruMinutes.ToString(),
+                                    IsBody = true
+                                }
+                                })
+                            .SetTemplate(TemplateSample.ForgotPasswordTemplate);
+
+            await deliveryMethods.Send();
+
+            return new ForgotPasswordResponse(HttpStatusCode.OK, new List<string> { "Forgot password request processed successfully" }, true);
+        }
+
+        public async Task<SetNewPasswordResponse> SetNewPasswordAsync(SetNewPasswordRequest setNewPasswordRequest)
+        {
+            var validation = await _validation.ValidateAsync(setNewPasswordRequest);
+            if (!validation.IsValid)
+            {
+                return new SetNewPasswordResponse(HttpStatusCode.BadRequest,
+                    validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
+            }
+
+            var user = await _context.UserData.GetUserByEmailAsync(setNewPasswordRequest.Email);
+            if (user == null)
+            {
+                return new SetNewPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
+            }
+
+            var emailVerification = await _context.EmailVerificationData.GetEmailVerificationByUserIdAsync(user.Id, EmailVerificationType.ForgotPassword);
+            if (emailVerification == null)
+            {
+                return new SetNewPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email verification not found" }, false);
+            }
+
+            if (emailVerification.Token != setNewPasswordRequest.Code)
+            {
+                return new SetNewPasswordResponse(HttpStatusCode.BadRequest, new List<string> { "Invalid verification code" }, false);
+            }
+
+            if (emailVerification.ExpiresAt < DateTime.UtcNow)
+            {
+                return new SetNewPasswordResponse(HttpStatusCode.Gone, new List<string> { "Verification code has expired" }, false);
+            }
+
+            if (emailVerification.IsUsed)
+            {
+                return new SetNewPasswordResponse(HttpStatusCode.Conflict, new List<string> { "Verification code has already been used" }, false);
+            }
+
+            user.Password = SecretUtil.HashPassword(setNewPasswordRequest.NewPassword);
+            emailVerification.IsUsed = true;
+
+            await _context.Commit();
+            return new SetNewPasswordResponse(HttpStatusCode.OK, new List<string> { "Password updated successfully" }, true);
+        }
+
+        public async Task<RefreshTokenResponse> RefreshTokenAsync()
+        {
+            var oldRefreshToken = _httpContext.HttpContext.Request.Cookies[CookieConstant.REFRESH_TOKEN];
+            if (string.IsNullOrEmpty(oldRefreshToken))
+            {
+                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "Refresh token is required" }, false);
+            }
+
+            var refreshTokenEntity = await _context.RefreshTokenData.GetByTokenAsync(oldRefreshToken);
+
+            if (refreshTokenEntity == null || refreshTokenEntity.IsUsed || refreshTokenEntity.ExpiresAt < DateTime.UtcNow)
+            {
+                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "Invalid or expired refresh token" }, false);
+            }
+
+            refreshTokenEntity.IsUsed = true;
+
+            if (CurrentUserId == null || CurrentUserRole == null)
+            {
+                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "User is not authenticated" }, false);
+            }
+
+            var newAccessToken = GenerateAccessToken(CurrentUserId.Value, CurrentUserRole.Value);
+            var newRefreshToken = GenerateRefreshToken();
+
+            var newRefreshTokenEntity = _mapper.Map<RefreshToken>(oldRefreshToken);
+            await _context.RefreshTokenData.AddRefreshTokenAsync(refreshTokenEntity);
+            await _context.Commit();
+
+            ResponseCookies.Append(CookieConstant.ACCESS_TOKEN, newAccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(TimeConstant.AccessTokenExpiryMinutes)
+            });
+
+            ResponseCookies.Append(CookieConstant.REFRESH_TOKEN, newRefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)
+            });
+
+            return new RefreshTokenResponse(HttpStatusCode.OK, new List<string> { "Tokens refreshed successfully" }, true);
+        }
+
+        public async Task<LogoutResponse> LogoutAsync()
+        {
+            var refreshToken = RequestCookies[CookieConstant.REFRESH_TOKEN];
+
+            if (!string.IsNullOrEmpty(refreshToken))
+            {
+                var hashedToken = SecretUtil.HashToken(refreshToken);
+                var refreshTokenEntity = await _context.RefreshTokenData.GetByTokenAsync(hashedToken);
+
+                if (refreshTokenEntity != null && !refreshTokenEntity.IsUsed)
+                {
+                    refreshTokenEntity.IsUsed = true;
+                }
+            }
+
+            ResponseCookies.Delete(CookieConstant.ACCESS_TOKEN);
+            ResponseCookies.Delete(CookieConstant.REFRESH_TOKEN);
+
+            await _context.Commit();
+
+            return new LogoutResponse(HttpStatusCode.OK, new List<string> { "Logout successful" }, true);
+        }
     }
 }

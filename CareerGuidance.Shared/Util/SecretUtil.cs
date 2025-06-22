@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CareerGuidance.Shared.Util
 {
-    public class PasswordUtil
+    public class SecretUtil
     {
         public static byte[] HashPassword(string value)
         {
@@ -21,6 +22,13 @@ namespace CareerGuidance.Shared.Util
         {
             string hashedPassword = Encoding.UTF8.GetString(hashedBytes);
             return BCrypt.Net.BCrypt.Verify(raw, hashedPassword);
+        }
+
+        public static string HashToken(string token)
+        {
+            using var sha = SHA256.Create();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(token));
+            return Convert.ToBase64String(bytes);
         }
     }
 }

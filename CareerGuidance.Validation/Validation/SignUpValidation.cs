@@ -1,14 +1,8 @@
-﻿using CareerGuidance.Data.Enum;
-using CareerGuidance.DTO.Request;
+﻿using CareerGuidance.DTO.Request;
 using CareerGuidance.Shared.Constant;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CareerGuidance.BussinessLogic.Validation
+namespace CareerGuidance.Validation.Validation
 {
     public class SignUpValidation : AbstractValidator<SignUpRequest>
     {
@@ -48,7 +42,7 @@ namespace CareerGuidance.BussinessLogic.Validation
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
-                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
+                .Length(ValidationConstant.PASSWORD_MINLENGHT, ValidationConstant.PASSWORD_MAXLENGTH).WithMessage($"Password legth must between {ValidationConstant.PASSWORD_MINLENGHT} and {ValidationConstant.PASSWORD_MAXLENGTH}");
 
             RuleFor(x => x.ConfirmPassword)
                 .Equal(x => x.Password).WithMessage("Passwords do not match.");

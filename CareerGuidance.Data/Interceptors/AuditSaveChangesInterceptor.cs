@@ -13,16 +13,16 @@ namespace CareerGuidance.Data.Interceptors
 {
     public class AuditSaveChangesInterceptor : SaveChangesInterceptor
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
 
-        public AuditSaveChangesInterceptor(IHttpContextAccessor httpContextAccessor)
+        public AuditSaveChangesInterceptor(IHttpContextAccessor? httpContextAccessor = null)
         {
             _httpContextAccessor = httpContextAccessor;
         }
 
         private Guid? GetCurrentUserId()
         {
-            var user = _httpContextAccessor.HttpContext?.User;
+            var user = _httpContextAccessor?.HttpContext?.User;
             var userId = user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             return Guid.TryParse(userId, out var id) ? id : null;

@@ -25,5 +25,6 @@ namespace CareerGuidance.Data.Entity
         public List<UserEnrollCourse> UserEnrollCourses { get; set; }
         public List<UserEnrollTour> UserEnrollTours { get; set; }
         public List<UserEnrollWorkshop> UserEnrollWorkshops { get; set; }
+        public List<Notification> Notifications { get; set; }
     }
 }

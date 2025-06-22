@@ -10,5 +10,6 @@ namespace CareerGuidance.Shared.Constant
     {
         public const int AccessTokenExpiryMinutes = 10;
         public const int RefreshTokenExpiryDays = 30;
+        public const int EmailVerificationTokenExpiruMinutes = 30;
     }
 }

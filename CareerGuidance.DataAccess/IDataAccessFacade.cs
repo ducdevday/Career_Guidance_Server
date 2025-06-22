@@ -35,6 +35,8 @@ namespace CareerGuidance.DataAccess
         public IUserEnrollWorkshopData UserEnrollWorkshop { get; } 
         public IWorkshopData WorkshopData { get; }
         public IWorkshopReviewData WorkshopReviewData { get; }
+        public IEmailVerificationData EmailVerificationData { get; }    
+        public IRefreshTokenData RefreshTokenData { get; }
         public Task Commit();
     }
 
@@ -263,6 +265,24 @@ namespace CareerGuidance.DataAccess
             {
                 _workshopReviewData ??= new WorkshopReviewData(_context);
                 return _workshopReviewData;
+            }
+        }
+        private EmailVerificationData _emailVerificationData;
+        public IEmailVerificationData EmailVerificationData
+        {
+            get
+            {
+                _emailVerificationData ??= new EmailVerificationData(_context);
+                return _emailVerificationData;
+            }
+        }
+
+        private RefreshTokenData _refreshTokenData;
+        public IRefreshTokenData RefreshTokenData { 
+            get
+            {
+                _refreshTokenData ??= new RefreshTokenData(_context);
+                return _refreshTokenData;
             }
         }
 
