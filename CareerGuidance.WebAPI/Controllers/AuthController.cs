@@ -1,6 +1,7 @@
 ﻿using CareerGuidance.BussinessLogic.Interface;
 using CareerGuidance.DTO.Request;
 using CareerGuidance.Shared.Constant;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +17,14 @@ namespace CareerGuidance.WebAPI.Controllers
             _authBusiness = authBusiness;
         }
 
-        [HttpPost("/SignUp")]
+        [HttpPost("Signup")]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest signUpRequest) { 
             var result = await _authBusiness.SignUpAsync(signUpRequest);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
 
-        [HttpPost("/Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginInRequest)
         {
             var result = await _authBusiness.LoginAsync(loginInRequest);
@@ -31,7 +32,7 @@ namespace CareerGuidance.WebAPI.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost("/RefreshToken")]
+        [HttpPost("RefreshToken")]
         public async Task<IActionResult> RefreshToken()
         {
             var result = await _authBusiness.RefreshTokenAsync();
@@ -39,7 +40,8 @@ namespace CareerGuidance.WebAPI.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost("/Logout")]
+        [HttpPost("Logout")]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             var result = await _authBusiness.LogoutAsync();
@@ -47,15 +49,15 @@ namespace CareerGuidance.WebAPI.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost("/VetifyEmailSignUp")]
-        public async Task<IActionResult> VetifyEmailSignUp([FromBody] VerifyEmailSignUpRequest vetifyEmailSignUpRequest)
+        [HttpPost("VerifyEmailSignUp")]
+        public async Task<IActionResult> VerifyEmailSignUp([FromBody] VerifyEmailSignUpRequest vetifyEmailSignUpRequest)
         {
             var result = await _authBusiness.VetifyEmailSignUpAsync(vetifyEmailSignUpRequest);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
 
-        [HttpPost("/ForgotPassword")]
+        [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest forgotPasswordRequest)
         {
             var result = await _authBusiness.ForgotPasswordAsync(forgotPasswordRequest);
@@ -63,14 +65,12 @@ namespace CareerGuidance.WebAPI.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost("/SetNewPassword")]
+        [HttpPost("SetNewPassword")]
         public async Task<IActionResult> SetNewPassword([FromBody] SetNewPasswordRequest setNewPasswordRequest)
         { 
             var result = await _authBusiness.SetNewPasswordAsync(setNewPasswordRequest);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
-
-
     }
 }

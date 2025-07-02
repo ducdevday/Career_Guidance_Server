@@ -20,7 +20,7 @@ namespace CareerGuidance.DataAccess.Data.Repositories
         }
         public  Task<EmailVerification> AddEmailVerificationAsync(EmailVerification emailVerification)
         {
-            var addedEntity =  _context.EmailVerification.Add(emailVerification);
+            var addedEntity =  _context.EmailVerification.Add (emailVerification);
             return Task.FromResult(addedEntity.Entity);
         }
 

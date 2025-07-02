@@ -35,14 +35,14 @@ namespace CareerGuidance.BussinessLogic.Business
             if (!validation.IsValid)
             {
                 return new SignUpResponse(HttpStatusCode.BadRequest,
-                    validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
+                    validation.Errors.Select(e => e.ErrorMessage).ToList(), string.Empty);
             }
 
             var isExistedUser = await _context.UserData.IsExistedUserAsync(signUpRequest.Email, signUpRequest.PhoneNumber);
-
+            
             if (isExistedUser)
             {
-                return new SignUpResponse(HttpStatusCode.BadRequest, new List<string> { "Email already exists" }, false);
+                return new SignUpResponse(HttpStatusCode.BadRequest, new List<string> { "Email already exists" }, string.Empty);
             }
 
             User user = _mapper.Map<User>(signUpRequest);
@@ -50,7 +50,7 @@ namespace CareerGuidance.BussinessLogic.Business
             var createdUser = await _context.UserData.SignUpAccountAsync(user);
             if (createdUser == null)
             {
-                return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create user" }, false);
+                return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create user" }, string.Empty);
             }
 
             EmailVerification emailVerification = _mapper.Map<EmailVerification>(user);
@@ -59,7 +59,7 @@ namespace CareerGuidance.BussinessLogic.Business
             var addedemailVerification = await _context.EmailVerificationData.AddEmailVerificationAsync(emailVerification);
             if (addedemailVerification == null)
             {
-                return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create email verification" }, false);
+                return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create email verification" }, string.Empty);
             }
 
             await _context.Commit();
@@ -88,7 +88,7 @@ namespace CareerGuidance.BussinessLogic.Business
 
             await deliveryMethods.Send();
 
-            return new SignUpResponse(HttpStatusCode.OK, new List<string> { "User signed up successfully" }, true);
+            return new SignUpResponse(HttpStatusCode.OK, new List<string> { "User signed up successfully" }, signUpRequest.Email);
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
@@ -122,19 +122,11 @@ namespace CareerGuidance.BussinessLogic.Business
             var refreshTokenEntity = _mapper.Map<RefreshToken>(refreshToken);
             await _context.RefreshTokenData.AddRefreshTokenAsync(refreshTokenEntity);
 
-            ResponseCookies.Append(CookieConstant.ACCESS_TOKEN, accessToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(TimeConstant.AccessTokenExpiryMinutes)
-            });
-
             ResponseCookies.Append(CookieConstant.REFRESH_TOKEN, refreshToken, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)
             });
 
@@ -144,7 +136,8 @@ namespace CareerGuidance.BussinessLogic.Business
             {
                 UserId = user.Id,
                 FullName = $"{user.LastName}{(string.IsNullOrWhiteSpace(user.MiddleName) ? "" : " " + user.MiddleName)} {user.FirstName}",
-                Role = user.Role
+                Role = user.Role,
+                AccessToken = accessToken
             });
         }
 
@@ -316,7 +309,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new SetNewPasswordResponse(HttpStatusCode.Conflict, new List<string> { "Verification code has already been used" }, false);
             }
 
-            user.Password = SecretUtil.HashPassword(setNewPasswordRequest.NewPassword);
+            user.Password = SecretUtil.HashPassword(setNewPasswordRequest.Password);
             emailVerification.IsUsed = true;
 
             await _context.Commit();
@@ -328,21 +321,21 @@ namespace CareerGuidance.BussinessLogic.Business
             var oldRefreshToken = _httpContext.HttpContext.Request.Cookies[CookieConstant.REFRESH_TOKEN];
             if (string.IsNullOrEmpty(oldRefreshToken))
             {
-                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "Refresh token is required" }, false);
+                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "Refresh token is required" }, string.Empty);
             }
 
-            var refreshTokenEntity = await _context.RefreshTokenData.GetByTokenAsync(oldRefreshToken);
+            var refreshTokenEntity = await _context.RefreshTokenData.GetByTokenAsync(SecretUtil.HashToken(oldRefreshToken));
 
             if (refreshTokenEntity == null || refreshTokenEntity.IsUsed || refreshTokenEntity.ExpiresAt < DateTime.UtcNow)
             {
-                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "Invalid or expired refresh token" }, false);
+                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "Invalid or expired refresh token" }, string.Empty);
             }
 
             refreshTokenEntity.IsUsed = true;
 
             if (CurrentUserId == null || CurrentUserRole == null)
             {
-                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "User is not authenticated" }, false);
+                return new RefreshTokenResponse(HttpStatusCode.Unauthorized, new List<string> { "User is not authenticated" }, string.Empty);
             }
 
             var newAccessToken = GenerateAccessToken(CurrentUserId.Value, CurrentUserRole.Value);
@@ -352,14 +345,6 @@ namespace CareerGuidance.BussinessLogic.Business
             await _context.RefreshTokenData.AddRefreshTokenAsync(refreshTokenEntity);
             await _context.Commit();
 
-            ResponseCookies.Append(CookieConstant.ACCESS_TOKEN, newAccessToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(TimeConstant.AccessTokenExpiryMinutes)
-            });
-
             ResponseCookies.Append(CookieConstant.REFRESH_TOKEN, newRefreshToken, new CookieOptions
             {
                 HttpOnly = true,
@@ -368,7 +353,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 Expires = DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)
             });
 
-            return new RefreshTokenResponse(HttpStatusCode.OK, new List<string> { "Tokens refreshed successfully" }, true);
+            return new RefreshTokenResponse(HttpStatusCode.OK, new List<string> { "Tokens refreshed successfully" }, newAccessToken);
         }
 
         public async Task<LogoutResponse> LogoutAsync()
@@ -386,7 +371,6 @@ namespace CareerGuidance.BussinessLogic.Business
                 }
             }
 
-            ResponseCookies.Delete(CookieConstant.ACCESS_TOKEN);
             ResponseCookies.Delete(CookieConstant.REFRESH_TOKEN);
 
             await _context.Commit();

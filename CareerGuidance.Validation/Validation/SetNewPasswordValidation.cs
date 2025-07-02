@@ -17,13 +17,13 @@ namespace CareerGuidance.Validation.Validation
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.");
 
-            RuleFor(x => x.NewPassword)
+            RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("New password is required.")
                 .Length(ValidationConstant.PASSWORD_MINLENGHT, ValidationConstant.PASSWORD_MAXLENGTH).WithMessage($"Password length must be between {ValidationConstant.PASSWORD_MINLENGHT} and {ValidationConstant.PASSWORD_MAXLENGTH} characters.");
 
             RuleFor(x => x.ConfirmPassword)
                 .NotEmpty().WithMessage("Confirm password is required.")
-                .Equal(x => x.NewPassword).WithMessage("Confirm password does not match the new password.");
+                .Equal(x => x.Password).WithMessage("Confirm password does not match the new password.");
 
             RuleFor(x => x.Code)
                 .NotEmpty().WithMessage("Code is required.")

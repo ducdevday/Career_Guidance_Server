@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.DTO.Response
 {
-    public class RefreshTokenResponse : BaseApiResponse<bool>
+    public class RefreshTokenResponse : BaseApiResponse<string>
     {
-        public RefreshTokenResponse(HttpStatusCode statusCode, List<string> messages, bool data) : base(statusCode, messages, data)
+        public RefreshTokenResponse(HttpStatusCode statusCode, List<string> messages, string data) : base(statusCode, messages, data)
         {
         }
     }
