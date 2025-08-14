@@ -19,11 +19,7 @@ namespace CareerGuidance.Data.Entity
         public string ProvinceName { get; set; }   
 
         public Mentor? Mentor { get; set; }
-        public Company? Company { get; set; }
         public School? School { get; set; }
-        
-
-        public Tour? Tour { get; set; }
         public Workshop? Workshop { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace CareerGuidance.Data.Entity
         public string? Avatar { get; set; }
 
         public List<UserEnrollCourse> UserEnrollCourses { get; set; }
-        public List<UserEnrollTour> UserEnrollTours { get; set; }
         public List<UserEnrollWorkshop> UserEnrollWorkshops { get; set; }
         public List<Notification> Notifications { get; set; }
     }

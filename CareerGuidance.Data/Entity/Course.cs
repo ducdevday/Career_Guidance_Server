@@ -24,7 +24,5 @@ namespace CareerGuidance.Data.Entity
         public Industry Industry { get; set; }
         public List<UserEnrollCourse> UserEnrollCourses { get; set; }
         public List<Chapter> Chapters { get; set; }
-        public List<Instructor> Instructors { get; set; }
-
     }
 }

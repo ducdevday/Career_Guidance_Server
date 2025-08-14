@@ -11,7 +11,6 @@ namespace CareerGuidance.Data.Enum
         Admin,
         Student,
         Mentor,
-        Company,
         School
     }
 }

@@ -18,7 +18,6 @@ namespace CareerGuidance.Data.Entity
         public double? RatingStar { get; set; }
         public int? RatingCount { get; set; }
         public TourStatusType Status { get; set; }
-
         public int IndustryId { get; set; }
         public Industry Industry { get; set; }
         public int AddressId { get; set; }

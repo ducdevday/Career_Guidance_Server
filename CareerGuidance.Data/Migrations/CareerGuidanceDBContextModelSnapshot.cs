@@ -238,109 +238,6 @@ namespace CareerGuidance.Data.Migrations
                     b.ToTable("Chapter");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Company", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("About")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EstablishmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FacebookUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("InsertById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InstagramUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LinkedinUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TiktokUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Website")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
-                    b.ToTable("Company");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.CompanyIndustry", b =>
-                {
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("IndustryId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<Guid?>("InsertById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CompanyId", "IndustryId");
-
-                    b.HasIndex("IndustryId");
-
-                    b.ToTable("UserIndustry");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -408,6 +305,26 @@ namespace CareerGuidance.Data.Migrations
                     b.HasIndex("IndustryId");
 
                     b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("CareerGuidance.Data.Entity.District", b =>
+                {
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DistrictName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DistrictId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("District", (string)null);
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.EmailVerification", b =>
@@ -492,59 +409,6 @@ namespace CareerGuidance.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Industry");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Instructor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Avatar")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("InsertById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Instructor");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Lesson", b =>
@@ -724,6 +588,25 @@ namespace CareerGuidance.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("CareerGuidance.Data.Entity.Province", b =>
+                {
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProvinceName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ProvinceType")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ProvinceId");
+
+                    b.ToTable("Province", (string)null);
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.QnAComment", b =>
@@ -1023,9 +906,6 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<DateTime>("EstablishmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FacebookUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -1037,19 +917,10 @@ namespace CareerGuidance.Data.Migrations
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InstagramUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LinkedinUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ShortName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TiktokUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
@@ -1247,123 +1118,6 @@ namespace CareerGuidance.Data.Migrations
                     b.ToTable("TemplateVersion");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Tour", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IndustryId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("InsertById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("RatingCount")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("RatingStar")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Draft");
-
-                    b.Property<string>("Thumnail")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("TimeType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
-                    b.HasIndex("IndustryId");
-
-                    b.ToTable("Tour");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.TourReview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<Guid?>("InsertById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TourId");
-
-                    b.ToTable("TourReview");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1476,38 +1230,6 @@ namespace CareerGuidance.Data.Migrations
                     b.ToTable("UserEnrollCourse");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollTour", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<Guid?>("InsertById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UserId", "TourId");
-
-                    b.HasIndex("TourId");
-
-                    b.ToTable("UserEnrollTour");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollWorkshop", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -1538,6 +1260,26 @@ namespace CareerGuidance.Data.Migrations
                     b.HasIndex("WorkshopId");
 
                     b.ToTable("UserEnrollWorkshop");
+                });
+
+            modelBuilder.Entity("CareerGuidance.Data.Entity.Ward", b =>
+                {
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WardName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("WardId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Ward", (string)null);
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Workshop", b =>
@@ -1688,36 +1430,6 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Company", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Address", "Address")
-                        .WithOne("Company")
-                        .HasForeignKey("CareerGuidance.Data.Entity.Company", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.CompanyIndustry", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Company", "Company")
-                        .WithMany("CompanyIndustries")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.Industry", "Industry")
-                        .WithMany("CompanyIndustries")
-                        .HasForeignKey("IndustryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Industry");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.Course", b =>
                 {
                     b.HasOne("CareerGuidance.Data.Entity.Industry", "Industry")
@@ -1729,6 +1441,17 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("Industry");
                 });
 
+            modelBuilder.Entity("CareerGuidance.Data.Entity.District", b =>
+                {
+                    b.HasOne("CareerGuidance.Data.Entity.Province", "Province")
+                        .WithMany("Districts")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Province");
+                });
+
             modelBuilder.Entity("CareerGuidance.Data.Entity.EmailVerification", b =>
                 {
                     b.HasOne("CareerGuidance.Data.Entity.User", "User")
@@ -1738,17 +1461,6 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Instructor", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Course", "Course")
-                        .WithMany("Instructors")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Lesson", b =>
@@ -1896,36 +1608,6 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("Template");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Tour", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Address", "Address")
-                        .WithOne("Tour")
-                        .HasForeignKey("CareerGuidance.Data.Entity.Tour", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.Industry", "Industry")
-                        .WithMany("Tours")
-                        .HasForeignKey("IndustryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-
-                    b.Navigation("Industry");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.TourReview", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Tour", "Tour")
-                        .WithMany("TourReviews")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollCourse", b =>
                 {
                     b.HasOne("CareerGuidance.Data.Entity.Course", "Course")
@@ -1941,25 +1623,6 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollTour", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Tour", "Tour")
-                        .WithMany("UserEnrollTours")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CareerGuidance.Data.Entity.User", "User")
-                        .WithMany("UserEnrollTours")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
 
                     b.Navigation("User");
                 });
@@ -1981,6 +1644,17 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("User");
 
                     b.Navigation("Workshop");
+                });
+
+            modelBuilder.Entity("CareerGuidance.Data.Entity.Ward", b =>
+                {
+                    b.HasOne("CareerGuidance.Data.Entity.District", "District")
+                        .WithMany("Wards")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("District");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Workshop", b =>
@@ -2015,13 +1689,9 @@ namespace CareerGuidance.Data.Migrations
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Address", b =>
                 {
-                    b.Navigation("Company");
-
                     b.Navigation("Mentor");
 
                     b.Navigation("School");
-
-                    b.Navigation("Tour");
 
                     b.Navigation("Workshop");
                 });
@@ -2036,25 +1706,21 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("Lessons");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Company", b =>
-                {
-                    b.Navigation("CompanyIndustries");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.Course", b =>
                 {
                     b.Navigation("Chapters");
 
-                    b.Navigation("Instructors");
-
                     b.Navigation("UserEnrollCourses");
+                });
+
+            modelBuilder.Entity("CareerGuidance.Data.Entity.District", b =>
+                {
+                    b.Navigation("Wards");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Industry", b =>
                 {
                     b.Navigation("Blogs");
-
-                    b.Navigation("CompanyIndustries");
 
                     b.Navigation("Courses");
 
@@ -2062,14 +1728,17 @@ namespace CareerGuidance.Data.Migrations
 
                     b.Navigation("SchoolIndustries");
 
-                    b.Navigation("Tours");
-
                     b.Navigation("Workshops");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.Lesson", b =>
                 {
                     b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("CareerGuidance.Data.Entity.Province", b =>
+                {
+                    b.Navigation("Districts");
                 });
 
             modelBuilder.Entity("CareerGuidance.Data.Entity.QnAComment", b =>
@@ -2101,20 +1770,11 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("TemplateFields");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.Tour", b =>
-                {
-                    b.Navigation("TourReviews");
-
-                    b.Navigation("UserEnrollTours");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.User", b =>
                 {
                     b.Navigation("Notifications");
 
                     b.Navigation("UserEnrollCourses");
-
-                    b.Navigation("UserEnrollTours");
 
                     b.Navigation("UserEnrollWorkshops");
                 });

@@ -16,10 +16,6 @@ namespace CareerGuidance.Data.Entity
         public string? Bio { get; set; }
         public string? About { get; set; }
         public string? Website { get; set; }
-        public string? FacebookUrl { get; set; }
-        public string? TiktokUrl { get; set; }
-        public string? InstagramUrl { get; set; }
-        public string? LinkedinUrl { get; set; }
         public int AddressId { get; set; }
         public Address Address { get; set; }
         public List<SchoolIndustry> SchoolIndustries { get; set; }

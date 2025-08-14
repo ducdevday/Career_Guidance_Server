@@ -22,7 +22,11 @@ builder.Services.AddTransient<IDataAccessFacade, DataAccessFacade>();
 builder.Services.AddTransient<IAuthBusiness, AuthBusiness>();
 builder.Services.AddTransient<IValidationService, ValidationService>();
 builder.Services.AddScoped<AuditSaveChangesInterceptor>();
-
+builder.Services.AddHttpClient<LocationSyncService>(client =>
+{
+    client.BaseAddress = new Uri("https://api.vnappmob.com"); 
+    client.Timeout = TimeSpan.FromSeconds(60);
+});
 
 builder.Services.AddSingleton(setting);
 builder.Services.AddApplicationValidators();
