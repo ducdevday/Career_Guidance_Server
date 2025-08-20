@@ -18,10 +18,22 @@ namespace CareerGuidance.Data.Configuration
             builder.HasKey(x => x.Id);
             builder.Property(c => c.FullName).IsRequired().HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
             builder.Property(c => c.ShortName).IsRequired().HasMaxLength(ValidationConstant.SHORT_NAME_MAXLENGTH);
-            builder.Property(c => c.EstablishmentDate).IsRequired();
-            builder.HasOne(x => x.Address)
-                                        .WithOne(x => x.School)
-                                        .HasForeignKey<School>(x => x.AddressId);
+            builder.HasOne(m => m.User).WithOne(u => u.School).HasForeignKey<School>(s => s.Id).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(w => w.Province)
+           .WithMany()
+           .HasForeignKey(w => w.ProvinceId)
+           .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(w => w.District)
+                   .WithMany()
+                   .HasForeignKey(w => w.DistrictId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(w => w.Ward)
+                   .WithMany()
+                   .HasForeignKey(w => w.WardId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

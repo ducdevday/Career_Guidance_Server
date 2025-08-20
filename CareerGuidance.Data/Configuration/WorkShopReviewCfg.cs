@@ -23,7 +23,7 @@ namespace CareerGuidance.Data.Configuration
 
             builder.Property(x => x.Content).IsRequired().HasMaxLength(ValidationConstant.CONTENT_MAXLENGTH);
 
-            builder.HasOne(x => x.Workshop).WithMany(x => x.WorkshopReviews).HasForeignKey(x => x.WorkShopId);
+            builder.HasOne(x => x.Workshop).WithMany(x => x.WorkshopReviews).HasForeignKey(x => x.WorkshopId);
         }
     }
 }

@@ -32,8 +32,6 @@ namespace CareerGuidance.Data
             optionsBuilder.UseSqlServer(_setting.ConnectionString);
             optionsBuilder.AddInterceptors(_auditInterceptor);
         }
-
-        public DbSet<Address> Address { get; set; }
         public DbSet<Blog> Blog { get; set; }
         public DbSet<BlogComment> BlogComment { get; set; }
         public DbSet<Chapter> Chapter { get; set; }

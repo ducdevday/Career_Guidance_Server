@@ -8,16 +8,19 @@ namespace CareerGuidance.Data.Entity
 {
     public class School : AuditableEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
         public string FullName { get; set; }
         public string ShortName { get; set; }
-        public DateTime EstablishmentDate { get; set; }
         public string? Avatar { get; set; }
-        public string? Bio { get; set; }
-        public string? About { get; set; }
-        public string? Website { get; set; }
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
-        public List<SchoolIndustry> SchoolIndustries { get; set; }
+        public string? Description { get; set; }
+        public string? FullAddress { get; set; }
+        public string? StreetName { get; set; }
+        public int ProvinceId { get; set; }
+        public Province Province { get; set; }
+        public int DistrictId { get; set; }
+        public District District { get; set; }
+        public int WardId { get; set; }
+        public Ward Ward { get; set; }
+        public User User { get; set; }
     }
 }

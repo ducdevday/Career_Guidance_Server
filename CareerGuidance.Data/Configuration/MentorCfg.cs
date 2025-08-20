@@ -17,9 +17,11 @@ namespace CareerGuidance.Data.Configuration
             base.Configure(builder);
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Industry).WithMany(x => x.Mentors).HasForeignKey(x => x.IndustryId);
-            builder.HasOne(x => x.Address)
-                                        .WithOne(x => x.Mentor)
-                                        .HasForeignKey<Mentor>(x => x.AddressId);
+
+            builder.HasOne(m => m.User)
+               .WithOne(u => u.Mentor)
+               .HasForeignKey<Mentor>(m => m.Id) 
+               .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

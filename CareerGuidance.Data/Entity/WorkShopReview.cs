@@ -12,7 +12,7 @@ namespace CareerGuidance.Data.Entity
         public int Rating { get; set; }
         public string Content { get; set; }
 
-        public int WorkShopId { get; set; }
+        public int WorkshopId { get; set; }
         public Workshop Workshop { get; set; }
     }
 }

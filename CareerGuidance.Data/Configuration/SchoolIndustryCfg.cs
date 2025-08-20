@@ -17,12 +17,6 @@ namespace CareerGuidance.Data.Configuration
             builder.HasKey(x => new { x.SchoolId, x.IndustryId });
 
             builder
-                   .HasOne(x => x.School)
-                   .WithMany(x => x.SchoolIndustries)
-                   .HasForeignKey(x => x.SchoolId);
-
-
-            builder
                     .HasOne(x => x.Industry)
                     .WithMany(x => x.SchoolIndustries)
                     .HasForeignKey(x => x.IndustryId);

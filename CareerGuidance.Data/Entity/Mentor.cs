@@ -8,17 +8,13 @@ namespace CareerGuidance.Data.Entity
 {
     public class Mentor : AuditableEntity
     {
-        public Guid Id { get; set; }
-        public string? Bio { get; set; }
-        public string? About { get; set; }
-        public string? Website { get; set; }
-        public string? FacebookUrl { get; set; }
-        public string? TiktokUrl { get; set; }
-        public string? InstagramUrl { get; set; }
-        public string? LinkedinUrl { get; set; }
+        public Guid Id { get; set; }    
+        public string? Avatar { get; set; } 
+        public string Description { get; set; }
+        public string Position { get; set; }
+        public int YOE { get; set; } 
         public int IndustryId { get; set; }
         public Industry Industry { get; set; }
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
+        public User User { get; set; }
     }
 }
