@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CareerGuidance.Data.Entity;
 using CareerGuidance.Data.Enum;
+using CareerGuidance.DTO.Dtos.Nested;
 using CareerGuidance.DTO.Request;
 using CareerGuidance.Shared.Constant;
 using CareerGuidance.Shared.Util;
@@ -30,6 +31,11 @@ namespace CareerGuidance.DTO.Mapper
                                             .ForMember(dest => dest.TokenHash, opt => opt.MapFrom(src => SecretUtil.HashToken(src)));
             #endregion
 
+            #region Industry
+            CreateMap<CreateIndustryRequest, Industry>();
+            CreateMap<UpdateIndustryRequest, Industry>();
+            CreateMap<Industry, IndustryDto>();
+            #endregion
         }
     }
 }

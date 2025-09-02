@@ -62,7 +62,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new SignUpResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create email verification" }, string.Empty);
             }
 
-            await _context.Commit();
+            await _context.CommitAsync();
 
 
             var factory = new MessageDeliveryFactory();
@@ -130,7 +130,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 Expires = DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)
             });
 
-            await _context.Commit();
+            await _context.CommitAsync();
 
             return new LoginResponse(HttpStatusCode.OK, new List<string> { "Login successful" }, new LoginNested
             {
@@ -214,7 +214,7 @@ namespace CareerGuidance.BussinessLogic.Business
             user.Status = AccountStatusType.Verified;
             emailVerification.IsUsed = true;
 
-            await _context.Commit();
+            await _context.CommitAsync();
 
             return new VerifyEmailSignUpResponse(HttpStatusCode.OK, new List<string> { "Email verified successfully" }, true);
         }
@@ -245,7 +245,7 @@ namespace CareerGuidance.BussinessLogic.Business
             {
                 return new ForgotPasswordResponse(HttpStatusCode.InternalServerError, new List<string> { "Failed to create email verification" }, false);
             }
-            await _context.Commit();
+            await _context.CommitAsync();
 
             var factory = new MessageDeliveryFactory();
             var deliveryMethods = factory.Create(NotificationType.Email);
@@ -312,7 +312,7 @@ namespace CareerGuidance.BussinessLogic.Business
             user.Password = SecretUtil.HashPassword(setNewPasswordRequest.Password);
             emailVerification.IsUsed = true;
 
-            await _context.Commit();
+            await _context.CommitAsync();
             return new SetNewPasswordResponse(HttpStatusCode.OK, new List<string> { "Password updated successfully" }, true);
         }
 
@@ -343,7 +343,7 @@ namespace CareerGuidance.BussinessLogic.Business
 
             var newRefreshTokenEntity = _mapper.Map<RefreshToken>(oldRefreshToken);
             await _context.RefreshTokenData.AddRefreshTokenAsync(refreshTokenEntity);
-            await _context.Commit();
+            await _context.CommitAsync();
 
             ResponseCookies.Append(CookieConstant.REFRESH_TOKEN, newRefreshToken, new CookieOptions
             {
@@ -373,7 +373,7 @@ namespace CareerGuidance.BussinessLogic.Business
 
             ResponseCookies.Delete(CookieConstant.REFRESH_TOKEN);
 
-            await _context.Commit();
+            await _context.CommitAsync();
 
             return new LogoutResponse(HttpStatusCode.OK, new List<string> { "Logout successful" }, true);
         }

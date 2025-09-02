@@ -20,6 +20,8 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(ValidationConstant.NAME_MAXLENGTH);
+            builder.Property(x => x.Icon).IsRequired()
+                .HasMaxLength(100);
         }
     }
 }

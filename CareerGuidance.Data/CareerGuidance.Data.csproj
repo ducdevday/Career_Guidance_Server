@@ -21,12 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extentions\" />
+    <ProjectReference Include="..\CareerGuidance.Setting\CareerGuidance.Setting.csproj" />
+    <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CareerGuidance.Setting\CareerGuidance.Setting.csproj" />
-    <ProjectReference Include="..\CareerGuidance.Shared\CareerGuidance.Shared.csproj" />
+    <Folder Include="Extentions\" />
   </ItemGroup>
 
 </Project>

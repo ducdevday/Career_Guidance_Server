@@ -4,6 +4,7 @@ using CareerGuidance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CareerGuidance.Data.Migrations
 {
     [DbContext(typeof(CareerGuidanceDBContext))]
-    partial class CareerGuidanceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250902073540_UpdateDBContext-02092025")]
+    partial class UpdateDBContext02092025
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

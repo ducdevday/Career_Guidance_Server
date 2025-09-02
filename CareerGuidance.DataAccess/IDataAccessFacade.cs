@@ -12,32 +12,22 @@ namespace CareerGuidance.DataAccess
 {
     public interface IDataAccessFacade
     {
-        public IAddressData AddressData { get; }
         public IBlogCommentData BlogCommentData { get; }
         public IBlogData BlogData { get; }
         public IChapterData ChapterData { get;      }
-        public ICompanyData CompanyData { get; }
         public ICourseData CourseData { get; }
         public IIndustryData IndustryData { get; }
         public ILessonData LessonData { get; }
         public IMentorData MentorData { get; }
-        public IQnACommentData QnACommentData { get; }
-        public IQnACommentInteractionData QnACommentInteractionData { get; }
-        public IQnAPostData QnAPostData { get; }
-        public IQnAPostInteractionData QnAPostInteractionData { get; }
         public IResourceData ResourceData { get; }
-        public ISchoolData SchoolData { get; } 
-        public ITourData TourData { get; }
-        public ITourReviewData TourReviewData { get; }
         public IUserData UserData { get; }
         public IUserEnrollCourseData UserEnrollCourseData { get; }
-        public IUserEnrollTourData UserEnrollTourData { get; }
         public IUserEnrollWorkshopData UserEnrollWorkshop { get; } 
         public IWorkshopData WorkshopData { get; }
         public IWorkshopReviewData WorkshopReviewData { get; }
         public IEmailVerificationData EmailVerificationData { get; }    
         public IRefreshTokenData RefreshTokenData { get; }
-        public Task Commit();
+        public Task<bool> CommitAsync();
     }
 
     public class DataAccessFacade : IDataAccessFacade
@@ -49,14 +39,6 @@ namespace CareerGuidance.DataAccess
             _context = context;
         }
 
-        private AddressData _addressData;
-        public IAddressData AddressData
-        {
-            get { 
-                _addressData ??= new AddressData(_context);
-                return _addressData;
-            }
-        }
         private BlogCommentData _blogCommentData;
         public IBlogCommentData BlogCommentData
         {
@@ -84,24 +66,7 @@ namespace CareerGuidance.DataAccess
                 return _chapterData;
             }
         }
-        private CompanyData _companyData;
-        public ICompanyData CompanyData
-        {
-            get
-            {
-                _companyData ??= new CompanyData(_context);
-                return _companyData;
-            }
-        }
-        private CompanyIndustryData _companyIndustryData;
-        public ICompanyIndustryData CompanyIndustryData
-        {
-            get
-            {
-                _companyIndustryData ??= new CompanyIndustryData(_context);
-                return _companyIndustryData;
-            }
-        }
+
         private CourseData _courseData;
         public ICourseData CourseData
         {
@@ -136,42 +101,7 @@ namespace CareerGuidance.DataAccess
                 return _mentorData;
             }
         }
-        private QnACommentData _qnaCommentData;
-        public IQnACommentData QnACommentData
-        {
-            get
-            {
-                _qnaCommentData ??= new QnACommentData(_context);
-                return _qnaCommentData;
-            }
-        }
-        private QnACommentInteractionData _qnaCommentInteractionData;
-        public IQnACommentInteractionData QnACommentInteractionData
-        {
-            get
-            {
-                _qnaCommentInteractionData ??= new QnACommentInteractionData(_context);
-                return _qnaCommentInteractionData;
-            }
-        }
-        private QnAPostData _qnaPostData;
-        public IQnAPostData QnAPostData
-        {
-            get
-            {
-                _qnaPostData ??= new QnAPostData(_context);
-                return _qnaPostData;
-            }
-        }
-        private QnAPostInteractionData _qnaPostInteractionData;
-        public IQnAPostInteractionData QnAPostInteractionData
-        {
-            get
-            {
-                _qnaPostInteractionData ??= new QnAPostInteractionData(_context);
-                return _qnaPostInteractionData;
-            }
-        }
+      
         private ResourceData _resourceData;
         public IResourceData ResourceData
         {
@@ -181,38 +111,7 @@ namespace CareerGuidance.DataAccess
                 return _resourceData;
             }
         }
-        private SchoolData _schoolData;
-        public ISchoolData SchoolData
-        {
-            get
-            {
-                _schoolData ??= new SchoolData(_context);
-                return _schoolData;
-            }
-        }
-        public ISchoolIndustryData SchoolIndustryData
-        {
-            get
-            {
-                return new SchoolIndustryData(_context);
-            }
-        }
-        public ITourData TourData
-        {
-            get
-            {
-                return new TourData(_context);
-            }
-        }
-        private TourReviewData _tourReviewData;
-        public ITourReviewData TourReviewData
-        {
-            get
-            {
-                _tourReviewData ??= new TourReviewData(_context);
-                return _tourReviewData;
-            }
-        }
+
         private UserData _userData;
         public IUserData UserData
         {
@@ -231,15 +130,7 @@ namespace CareerGuidance.DataAccess
                 return _userEnrollCourseData;
             }
         }
-        private UserEnrollTourData _userEnrollTourData;
-        public IUserEnrollTourData UserEnrollTourData
-        {
-            get
-            {
-                _userEnrollTourData ??= new UserEnrollTourData(_context);
-                return _userEnrollTourData;
-            }
-        }
+
         private UserEnrollWorkshopData _userEnrollWorkshop;
         public IUserEnrollWorkshopData UserEnrollWorkshop
         {
@@ -286,10 +177,10 @@ namespace CareerGuidance.DataAccess
             }
         }
 
-        public Task Commit()
+        public async Task<bool> CommitAsync()
         {
-            _context.SaveChanges();
-            return Task.CompletedTask;
+            if (!_context.ChangeTracker.HasChanges()) return false;
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }
