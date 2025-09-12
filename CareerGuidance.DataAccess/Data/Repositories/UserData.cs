@@ -51,7 +51,7 @@ namespace CareerGuidance.DataAccess.Data.Repositories
             return Task.FromResult(addedUser.Entity);
         }
 
-        public Task<User> UpdateUser(User user)
+        public Task<User> UpdateUserAsync(User user)
         {
             throw new NotImplementedException();
         }

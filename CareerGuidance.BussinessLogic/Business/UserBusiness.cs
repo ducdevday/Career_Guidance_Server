@@ -1,0 +1,93 @@
+﻿using AutoMapper;
+using CareerGuidance.BussinessLogic.Interface;
+using CareerGuidance.DataAccess;
+using CareerGuidance.DTO.Dtos.Nested;
+using CareerGuidance.DTO.Request;
+using CareerGuidance.DTO.Response;
+using CareerGuidance.Validation.Service;
+using Microsoft.AspNetCore.Http;
+using System.Net;
+
+namespace CareerGuidance.BussinessLogic.Business
+{
+    public class UserBusiness : BaseBusiness, IUserBusiness
+    {
+        public UserBusiness(IDataAccessFacade context, IMapper mapper, IValidationService validation, IHttpContextAccessor httpContextAccessor) : base(context, mapper, validation, httpContextAccessor)
+        {
+
+        }
+
+        public async Task<GetUserByIdResponse> GetUserByIdAsync(Guid id)
+        {
+            var user = await _context.UserData.GetByIdAsync(id);
+            if (user == null)
+                return new GetUserByIdResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, null);
+
+            var userDto = _mapper.Map<UserDto>(user);
+            return new GetUserByIdResponse(HttpStatusCode.OK, new List<string> { "Get User Successfully" }, userDto);
+        }
+
+        public async Task<DeleteUserResponse> HardDeleteUserAsync(Guid id)
+        {
+            var user = await _context.UserData.GetByIdAsync(id);
+            if (user == null)
+                return new DeleteUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
+            await _context.UserData.HardDeleteAsync(user);
+            var result = await _context.CommitAsync();
+            if (result)
+                return new DeleteUserResponse(HttpStatusCode.OK, new List<string> { "User Deleted Successfully" }, true);
+            else
+                return new DeleteUserResponse(HttpStatusCode.InternalServerError, new List<string> { "User Deletion Failed" }, false);
+        }
+
+        public Task<SearchUserResponse> SearchUserAsync(SearchUserRequest request)
+        {
+            var validation = await _validation.ValidateAsync(request);
+            if (!validation.IsValid)
+            {
+                return new SearchUserResponse(HttpStatusCode.BadRequest,
+                     validation.Errors.Select(e => e.ErrorMessage).ToList(), null);
+            }
+            var (users,count) = _context.UserData.SearchAsync(request.PageIndex, request.PageSize, );
+            var userDtos = _mapper.Map<List<UserDto>>(users);
+            var response = new SearchUserResponse(HttpStatusCode.OK, new List<string> { "Search User Successfully" }, userDtos)
+            {
+                TotalCount = count
+            };
+            return response;
+        }
+
+        public async Task<DeleteUserResponse> SoftDeleteUserAsync(Guid id)
+        {
+            var user = await _context.UserData.GetByIdAsync(id);
+            if (user == null)
+                return new DeleteUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
+            await _context.UserData.SoftDeleteAsync(user);
+            var result = await _context.CommitAsync();
+            if (result)
+                return new DeleteUserResponse(HttpStatusCode.OK, new List<string> { "User Deleted Successfully" }, true);
+            else
+                return new DeleteUserResponse(HttpStatusCode.InternalServerError, new List<string> { "User Deletion Failed" }, false);
+        }
+
+        public Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest request)
+        {
+            var validation = await _validation.ValidateAsync(request);
+            if (!validation.IsValid)
+            {
+                return new UpdateUserResponse(HttpStatusCode.BadRequest,
+                    validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
+            }
+            var user = await _context.UserData.GetByIdAsync(request.Id);
+            if (user == null)
+                return new UpdateUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
+            _mapper.Map(request, user);
+            await _context.UserData.UpdateAsync(user);
+            var result = await _context.CommitAsync();
+            if (result)
+                return new UpdateUserResponse(HttpStatusCode.OK, new List<string> { "User Updated Successfully" }, true);
+            else
+                return new UpdateUserResponse(HttpStatusCode.InternalServerError, new List<string> { "User Update Failed" }, false);
+        }
+    }
+}

@@ -18,11 +18,7 @@ namespace CareerGuidance.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var request = new GetIndustryRequest
-            {
-                Id = id
-            };
-            var result = await _industryBusiness.GetIndustryAsync(request);
+            var result = await _industryBusiness.GetIndustryByIdAsync(id);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
@@ -55,23 +51,15 @@ namespace CareerGuidance.WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> SoftDelete([FromRoute] int id)
         {
-            var request = new DeleteIndustryRequest
-            {
-                Id = id
-            };
-            var result = await _industryBusiness.SoftDeleteIndustryAsync(request);
+            var result = await _industryBusiness.SoftDeleteIndustryAsync(id);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }
 
-        [HttpPatch("{id:int}")]
+        [HttpDelete("{id:int}/permanent")]
         public async Task<IActionResult> HardDelete([FromRoute] int id)
         {
-            var request = new DeleteIndustryRequest
-            {
-                Id = id
-            };
-            var result = await _industryBusiness.HardDeleteIndustryAsync(request);
+            var result = await _industryBusiness.HardDeleteIndustryAsync(id);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }

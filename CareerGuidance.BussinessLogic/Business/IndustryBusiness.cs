@@ -46,16 +46,10 @@ namespace CareerGuidance.BussinessLogic.Business
             else return new CreateIndustryResponse(HttpStatusCode.InternalServerError, new List<string> { "Industry Create Failed" }, false);
         }
 
-        public async Task<DeleteIndustryResponse> SoftDeleteIndustryAsync(DeleteIndustryRequest request)
+        public async Task<DeleteIndustryResponse> SoftDeleteIndustryAsync(int id)
         {
-            var validation = await _validation.ValidateAsync(request);
-            if (!validation.IsValid)
-            {
-                return new DeleteIndustryResponse(HttpStatusCode.BadRequest,
-                    validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
-            }
 
-            var industry = await _context.IndustryData.GetByIdAsync(request.Id);
+            var industry = await _context.IndustryData.GetByIdAsync(id);
             if (industry == null) return new DeleteIndustryResponse(HttpStatusCode.NotFound, new List<string> { "Industry Not Found" }, false);
 
             await _context.IndustryData.SoftDeleteAsync(industry);
@@ -64,15 +58,9 @@ namespace CareerGuidance.BussinessLogic.Business
             else return new DeleteIndustryResponse(HttpStatusCode.InternalServerError, new List<string> { "Industry Deletion Failed" }, false);
         }
 
-        public async Task<GetIndustryByIdResponse> GetIndustryAsync(GetIndustryRequest request)
+        public async Task<GetIndustryByIdResponse> GetIndustryByIdAsync(int id)
         {
-            var validation = await _validation.ValidateAsync(request);
-            if (!validation.IsValid)
-            {
-                return new GetIndustryByIdResponse(HttpStatusCode.BadRequest,
-                    validation.Errors.Select(e => e.ErrorMessage).ToList(), null);
-            }
-            var industry = await _context.IndustryData.GetByIdAsync(request.Id);
+            var industry = await _context.IndustryData.GetByIdAsync(id);
             if (industry == null) return new GetIndustryByIdResponse(HttpStatusCode.NotFound, new List<string> { "Industry Not Found" }, null);
 
             var industryDto = _mapper.Map<IndustryDto>(industry);
@@ -101,16 +89,10 @@ namespace CareerGuidance.BussinessLogic.Business
             else return new UpdateIndustryResponse(HttpStatusCode.InternalServerError, new List<string> { "Industry Update Failed" }, false);
         }
 
-        public async Task<DeleteIndustryResponse> HardDeleteIndustryAsync(DeleteIndustryRequest request)
+        public async Task<DeleteIndustryResponse> HardDeleteIndustryAsync(int id)
         {
-            var validation = _validation.ValidateAsync(request);
-            if (!validation.Result.IsValid)
-            {
-                return new DeleteIndustryResponse(HttpStatusCode.BadRequest,
-                    validation.Result.Errors.Select(e => e.ErrorMessage).ToList(), false);
-            }
 
-            var industry = _context.IndustryData.GetByIdAsync(request.Id).Result;
+            var industry = await _context.IndustryData.GetByIdAsync(id);
             if (industry == null)
             {
                 return new DeleteIndustryResponse(HttpStatusCode.NotFound, new List<string> { "Industry Not Found" }, false);
@@ -128,18 +110,15 @@ namespace CareerGuidance.BussinessLogic.Business
             if (!validation.Result.IsValid)
             {
                 return new SearchIndustryResponse(HttpStatusCode.BadRequest,
-                    validation.Result.Errors.Select(e => e.ErrorMessage).ToList(), null);
+                    validation.Result.Errors.Select(e => e.ErrorMessage).ToList(), []);
             }
 
             var (industries, count) = await _context.IndustryData.GetListAsync(request.PageIndex, request.PageSize, null);
 
             var industryDtos = _mapper.Map<List<IndustryDto>>(industries);
-            var searchDto = new SearchIndustryDto
-            {
-                Industries = industryDtos,
-                TotalCount = count
-            };
-            return new SearchIndustryResponse(HttpStatusCode.OK, new List<string> { "Industries Retrieved Successfully" }, searchDto);
+            var response = new SearchIndustryResponse(HttpStatusCode.OK, new List<string> { "Industries Retrieved Successfully" }, industryDtos);
+            response.TotalCount = count;
+            return response;
         }
 
         public async Task<GetHomeIndustryResposne> GetHomeIndustryAsync()

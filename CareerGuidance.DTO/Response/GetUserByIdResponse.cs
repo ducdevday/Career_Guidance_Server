@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace CareerGuidance.DTO.Response
 {
-    public class SearchIndustryResponse : BaseApiResponse<List<IndustryDto>>
+    public class GetUserByIdResponse : BaseApiResponse<UserDto?>
     {
-        public SearchIndustryResponse(HttpStatusCode statusCode, List<string> messages, List<IndustryDto> data) : base(statusCode, messages, data)
+        public GetUserByIdResponse(HttpStatusCode statusCode, List<string> messages, UserDto? data) : base(statusCode, messages, data)
         {
         }
     }
