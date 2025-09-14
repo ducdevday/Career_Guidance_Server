@@ -21,8 +21,11 @@ namespace CareerGuidance.Data.Entity
         public RoleType Role { get; set; }
         public AccountStatusType Status {get; set;}
         public string? Avatar { get; set; }
-        
-        public Mentor? Mentor { get; set; }
+        public string Description { get; set; } 
+        public string Position { get; set; }
+        public int YOE { get; set; }
+        public int? IndustryId { get; set; }
+        public Industry? Industry { get; set; }
         public List<UserEnrollCourse> UserEnrollCourses { get; set; }
         public List<UserEnrollWorkshop> UserEnrollWorkshops { get; set; }
         public List<Notification> Notifications { get; set; }

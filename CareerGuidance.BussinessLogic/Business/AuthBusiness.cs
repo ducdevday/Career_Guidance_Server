@@ -100,7 +100,7 @@ namespace CareerGuidance.BussinessLogic.Business
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), null);
             }
 
-            var user = await _context.UserData.GetByEmailAsync(loginRequest.Email);
+            var user = await _context.UserData.GetAsync(x => x.Email == loginRequest.Email);
             if (user == null)
             {
                 return new LoginResponse(HttpStatusCode.BadRequest, new List<string> { "User does not exist" }, null);
@@ -180,7 +180,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new VerifyEmailSignUpResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
-            var user = await _context.UserData.GetByEmailAsync(request.Email);
+            var user = await _context.UserData.GetAsync(x => x.Email == request.Email);
             if (user == null)
             {
                 return new VerifyEmailSignUpResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
@@ -226,7 +226,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new ForgotPasswordResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
-            var user = await _context.UserData.GetByEmailAsync(request.Email);
+            var user = await _context.UserData.GetAsync(x => x.Email == request.Email);
             if (user == null)
             {
                 return new ForgotPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
@@ -282,7 +282,7 @@ namespace CareerGuidance.BussinessLogic.Business
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
 
-            var user = await _context.UserData.GetByEmailAsync(setNewPasswordRequest.Email);
+            var user = await _context.UserData.GetAsync(x => x.Email == setNewPasswordRequest.Email);
             if (user == null)
             {
                 return new SetNewPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
@@ -377,5 +377,48 @@ namespace CareerGuidance.BussinessLogic.Business
 
             return new LogoutResponse(HttpStatusCode.OK, new List<string> { "Logout successful" }, true);
         }
+
+        public async Task<RegisterMentorResponse> RegisterMentorAsync(RegisterMentorRequest request)
+        {
+            var validation = await _validation.ValidateAsync(request);
+
+            if (!validation.IsValid)
+            {
+                return new RegisterMentorResponse(HttpStatusCode.BadRequest,
+                    validation.Errors.Select(e => e.ErrorMessage).ToList(), string.Empty);
+            }
+
+            var user = await _context.UserData.GetAsync(x => x.Id == CurrentUserId);
+            if (user == null)
+                return new RegisterMentorResponse(HttpStatusCode.NotFound, new() { "User not found." }, string.Empty);
+
+            if (CurrentUserRole == RoleType.Mentor)
+            {
+                return new RegisterMentorResponse(HttpStatusCode.Forbidden, new List<string> { "Account is already register mentor" }, string.Empty);
+            }
+
+            _mapper.Map(request, user);
+
+            var accessToken = GenerateAccessToken(user.Id, user.Role);
+            var refreshToken = GenerateRefreshToken();
+
+            var refreshTokenEntity = _mapper.Map<RefreshToken>(refreshToken);
+            await _context.RefreshTokenData.AddRefreshTokenAsync(refreshTokenEntity);
+
+            ResponseCookies.Append(CookieConstant.REFRESH_TOKEN, refreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)
+            });
+
+            await _context.CommitAsync();
+
+            return new RegisterMentorResponse(HttpStatusCode.OK, new List<string> { "Register Mentor Success" }, accessToken);
+
+
+        }
+
     }
 }

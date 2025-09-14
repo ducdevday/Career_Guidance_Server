@@ -11,8 +11,7 @@ namespace CareerGuidance.DataAccess.Data.Interface
     {
         Task<bool> IsExistAsync(Func<User, bool> predicate);
         public Task<User> SignUpAccountAsync(User user);
-        public Task<User?> GetByEmailAsync(string email);
-        public Task<User?> GetByIdAsync(Guid id);
+        public Task<User?> GetAsync(Func<User, bool> predicate);
         public Task<User> UpdateAsync(User user);
         public Task SoftDeleteAsync(User user);
         public Task HardDeleteAsync(User user);

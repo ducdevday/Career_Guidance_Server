@@ -19,7 +19,9 @@ namespace CareerGuidance.DTO.Mapper
             #region Auth
             CreateMap<SignUpRequest, User>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                                             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => SecretUtil.HashPassword(src.Password)))
-                                            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => AccountStatusType.Unverified));
+                                            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => AccountStatusType.Unverified))
+                                            .ForMember(dest => dest.Role,  opt => opt.MapFrom(src => RoleType.Student));
+                                            
 
             CreateMap<User, EmailVerification>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                                             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
@@ -29,6 +31,8 @@ namespace CareerGuidance.DTO.Mapper
             CreateMap<string, RefreshToken>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                                             .ForMember(dest => dest.ExpiresAt, opt => opt.MapFrom(src => DateTime.UtcNow.AddDays(TimeConstant.RefreshTokenExpiryDays)))
                                             .ForMember(dest => dest.TokenHash, opt => opt.MapFrom(src => SecretUtil.HashToken(src)));
+            CreateMap<RegisterMentorRequest, User>()
+                                            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => RoleType.Mentor));
             #endregion
 
             #region Industry

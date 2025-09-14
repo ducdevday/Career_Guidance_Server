@@ -38,7 +38,6 @@ namespace CareerGuidance.Data
         public DbSet<Course> Course { get; set; }
         public DbSet<Industry> Industry { get; set; }
         public DbSet<Lesson> Lesson { get; set; }
-        public DbSet<Mentor> Mentor { get; set; }
         public DbSet<Resource> Resource { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserEnrollCourse> UserEnrollCourse { get; set; }

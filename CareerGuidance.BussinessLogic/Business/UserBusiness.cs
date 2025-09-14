@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using CareerGuidance.BussinessLogic.Interface;
+using CareerGuidance.Data.Entity;
 using CareerGuidance.DataAccess;
 using CareerGuidance.DTO.Dtos.Nested;
 using CareerGuidance.DTO.Request;
 using CareerGuidance.DTO.Response;
 using CareerGuidance.Validation.Service;
+using CareerGuidance.Data.Enum;
 using Microsoft.AspNetCore.Http;
 using System.Net;
+using CareerGuidance.Shared.Constant;
 
 namespace CareerGuidance.BussinessLogic.Business
 {
@@ -19,7 +22,7 @@ namespace CareerGuidance.BussinessLogic.Business
 
         public async Task<GetUserByIdResponse> GetUserByIdAsync(Guid id)
         {
-            var user = await _context.UserData.GetByIdAsync(id);
+            var user = await _context.UserData.GetAsync(x => x.Id == id);
             if (user == null)
                 return new GetUserByIdResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, null);
 
@@ -29,7 +32,7 @@ namespace CareerGuidance.BussinessLogic.Business
 
         public async Task<DeleteUserResponse> HardDeleteUserAsync(Guid id)
         {
-            var user = await _context.UserData.GetByIdAsync(id);
+            var user = await _context.UserData.GetAsync(x => x.Id == id);
             if (user == null)
                 return new DeleteUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
             await _context.UserData.HardDeleteAsync(user);
@@ -40,6 +43,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new DeleteUserResponse(HttpStatusCode.InternalServerError, new List<string> { "User Deletion Failed" }, false);
         }
 
+        
         public async Task<SearchUserResponse> SearchUserAsync(SearchUserRequest request)
         {
             var (users, count) = await _context.UserData.GetListAsync(request.PageIndex, request.PageSize, x => x.FirstName.Contains(request.Keyword ?? string.Empty) || x.LastName.Contains(request.Keyword ?? string.Empty) || x.LastName.Contains(request.Keyword ?? string.Empty), x => x.Id, true);
@@ -53,7 +57,7 @@ namespace CareerGuidance.BussinessLogic.Business
 
         public async Task<DeleteUserResponse> SoftDeleteUserAsync(Guid id)
         {
-            var user = await _context.UserData.GetByIdAsync(id);
+            var user = await _context.UserData.GetAsync(x=> x.Id == id);
             if (user == null)
                 return new DeleteUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
             await _context.UserData.SoftDeleteAsync(user);
@@ -72,7 +76,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new UpdateUserResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
-            var user = await _context.UserData.GetByIdAsync(request.UserId);
+            var user = await _context.UserData.GetAsync(x => x.Id == request.UserId);
             if (user == null)
                 return new UpdateUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
             _mapper.Map(request, user);

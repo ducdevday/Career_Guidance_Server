@@ -10,6 +10,7 @@ using CareerGuidance.Validation.Service;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using CareerGuidance.WebAPI.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 var setting = EnviromentSetting.Instance;
@@ -97,6 +98,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();

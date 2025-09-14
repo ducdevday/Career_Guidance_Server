@@ -1,4 +1,5 @@
-﻿using CareerGuidance.BussinessLogic.Interface;
+﻿using CareerGuidance.BussinessLogic.Business;
+using CareerGuidance.BussinessLogic.Interface;
 using CareerGuidance.DTO.Request;
 using CareerGuidance.Shared.Constant;
 using Microsoft.AspNetCore.Authorization;
@@ -69,6 +70,15 @@ namespace CareerGuidance.WebAPI.Controllers
         public async Task<IActionResult> SetNewPassword([FromBody] SetNewPasswordRequest setNewPasswordRequest)
         { 
             var result = await _authBusiness.SetNewPasswordAsync(setNewPasswordRequest);
+            HttpContext.Response.StatusCode = (int)result.StatusCode;
+            return new JsonResult(result);
+        }
+
+        [HttpPost("RegisterMentor")]
+        [Authorize]
+        public async Task<IActionResult> RegisterMentor([FromBody] RegisterMentorRequest request)
+        {
+            var result = await _authBusiness.RegisterMentorAsync(request);
             HttpContext.Response.StatusCode = (int)result.StatusCode;
             return new JsonResult(result);
         }

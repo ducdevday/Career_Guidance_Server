@@ -16,6 +16,7 @@ namespace CareerGuidance.Validation
             services.AddValidatorsFromAssemblyContaining<SetNewPasswordValidation>();
             services.AddValidatorsFromAssemblyContaining<UpdateIndustryValidation>();
             services.AddValidatorsFromAssemblyContaining<UpdateUserValidation>();
+            services.AddValidatorsFromAssemblyContaining<RegisterMentorValidation>();
             return services;
         }
     }

@@ -39,10 +39,6 @@ namespace CareerGuidance.Data.Configuration
             builder.Property(s => s.DateOfBirth)
                    .IsRequired();
 
-            builder.HasIndex(x => x.Email).IsUnique();
-
-            builder.HasIndex(x => x.PhoneNumber).IsUnique();
-
             builder.Property(x => x.Email)
                    .IsRequired()
                    .HasMaxLength(ValidationConstant.EMAIL_MAXLENGTH);
@@ -64,6 +60,12 @@ namespace CareerGuidance.Data.Configuration
                    .HasConversion(
                                  appToDb => appToDb.ToString(),
                                  dbToApp => System.Enum.Parse<AccountStatusType>(dbToApp));
+
+            builder.HasOne(u => u.Industry).WithMany(i => i.Users).HasForeignKey(u => u.IndustryId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasIndex(x => x.Email).IsUnique();
+            builder.HasIndex(x => x.PhoneNumber).IsUnique();
+
         }
     }
 }

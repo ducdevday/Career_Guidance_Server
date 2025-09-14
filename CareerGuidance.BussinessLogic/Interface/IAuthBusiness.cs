@@ -18,5 +18,7 @@ namespace CareerGuidance.BussinessLogic.Interface
         public Task<SetNewPasswordResponse> SetNewPasswordAsync(SetNewPasswordRequest setNewPasswordRequest);
         public Task<RefreshTokenResponse> RefreshTokenAsync();
         public Task<LogoutResponse> LogoutAsync();
+        public Task<RegisterMentorResponse> RegisterMentorAsync(RegisterMentorRequest request);
+
     }
 }

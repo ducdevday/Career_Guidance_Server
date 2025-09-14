@@ -4,6 +4,7 @@ using CareerGuidance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CareerGuidance.Data.Migrations
 {
     [DbContext(typeof(CareerGuidanceDBContext))]
-    partial class CareerGuidanceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250914034449_UpdateDB_14092025v2")]
+    partial class UpdateDB_14092025v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -774,9 +777,6 @@ namespace CareerGuidance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IndustryId")
-                        .HasColumnType("int");
-
                     b.Property<Guid?>("InsertById")
                         .HasColumnType("uniqueidentifier");
 
@@ -826,8 +826,6 @@ namespace CareerGuidance.Data.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique();
-
-                    b.HasIndex("IndustryId");
 
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
@@ -1178,16 +1176,6 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("Template");
                 });
 
-            modelBuilder.Entity("CareerGuidance.Data.Entity.User", b =>
-                {
-                    b.HasOne("CareerGuidance.Data.Entity.Industry", "Industry")
-                        .WithMany("Users")
-                        .HasForeignKey("IndustryId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Industry");
-                });
-
             modelBuilder.Entity("CareerGuidance.Data.Entity.UserEnrollCourse", b =>
                 {
                     b.HasOne("CareerGuidance.Data.Entity.Course", "Course")
@@ -1310,8 +1298,6 @@ namespace CareerGuidance.Data.Migrations
                     b.Navigation("Blogs");
 
                     b.Navigation("Courses");
-
-                    b.Navigation("Users");
 
                     b.Navigation("Workshops");
                 });

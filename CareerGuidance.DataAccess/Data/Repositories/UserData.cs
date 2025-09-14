@@ -19,15 +19,9 @@ namespace CareerGuidance.DataAccess.Data.Repositories
             _context = context;
         }
 
-        public Task<User?> GetByEmailAsync(string email)
+        public Task<User?> GetAsync(Func<User,bool> filter)
         {
-            var user = _context.User.FirstOrDefault(u => u.Email == email);
-            return Task.FromResult(user);
-        }
-
-        public Task<User?> GetByIdAsync(Guid id)
-        {
-            var user = _context.User.FirstOrDefault(u => u.Id == id);
+            var user = _context.User.FirstOrDefault(filter);
             return Task.FromResult(user);
         }
 
