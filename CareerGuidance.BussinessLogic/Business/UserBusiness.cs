@@ -40,15 +40,9 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new DeleteUserResponse(HttpStatusCode.InternalServerError, new List<string> { "User Deletion Failed" }, false);
         }
 
-        public Task<SearchUserResponse> SearchUserAsync(SearchUserRequest request)
+        public async Task<SearchUserResponse> SearchUserAsync(SearchUserRequest request)
         {
-            var validation = await _validation.ValidateAsync(request);
-            if (!validation.IsValid)
-            {
-                return new SearchUserResponse(HttpStatusCode.BadRequest,
-                     validation.Errors.Select(e => e.ErrorMessage).ToList(), null);
-            }
-            var (users,count) = _context.UserData.SearchAsync(request.PageIndex, request.PageSize, );
+            var (users, count) = await _context.UserData.GetListAsync(request.PageIndex, request.PageSize, x => x.FirstName.Contains(request.Keyword ?? string.Empty) || x.LastName.Contains(request.Keyword ?? string.Empty) || x.LastName.Contains(request.Keyword ?? string.Empty), x => x.Id, true);
             var userDtos = _mapper.Map<List<UserDto>>(users);
             var response = new SearchUserResponse(HttpStatusCode.OK, new List<string> { "Search User Successfully" }, userDtos)
             {
@@ -70,7 +64,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new DeleteUserResponse(HttpStatusCode.InternalServerError, new List<string> { "User Deletion Failed" }, false);
         }
 
-        public Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest request)
+        public async Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest request)
         {
             var validation = await _validation.ValidateAsync(request);
             if (!validation.IsValid)
@@ -78,7 +72,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new UpdateUserResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
-            var user = await _context.UserData.GetByIdAsync(request.Id);
+            var user = await _context.UserData.GetByIdAsync(request.UserId);
             if (user == null)
                 return new UpdateUserResponse(HttpStatusCode.NotFound, new List<string> { "User Not Found" }, false);
             _mapper.Map(request, user);

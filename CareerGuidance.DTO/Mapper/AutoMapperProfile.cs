@@ -36,6 +36,11 @@ namespace CareerGuidance.DTO.Mapper
             CreateMap<UpdateIndustryRequest, Industry>();
             CreateMap<Industry, IndustryDto>();
             #endregion
+
+            #region User
+            CreateMap<User, UserDto>();
+            CreateMap<UpdateUserRequest, User>();
+            #endregion 
         }
     }
 }

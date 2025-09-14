@@ -21,6 +21,7 @@ builder.Services.AddDbContext<CareerGuidanceDBContext>();
 builder.Services.AddTransient<IDataAccessFacade, DataAccessFacade>();
 builder.Services.AddTransient<IAuthBusiness, AuthBusiness>();
 builder.Services.AddTransient<IIndustryBusiness, IndustryBusiness>();
+builder.Services.AddTransient<IUserBusiness, UserBusiness>();
 builder.Services.AddTransient<IValidationService, ValidationService>();
 builder.Services.AddScoped<AuditSaveChangesInterceptor>();
 builder.Services.AddHttpClient<LocationSyncService>(client =>

@@ -19,30 +19,48 @@ namespace CareerGuidance.DataAccess.Data.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetUserByEmailAsync(string email, bool asNoTracking = false)
+        public Task<User?> GetByEmailAsync(string email)
         {
-            IQueryable<User> query = _context.User;
-            if (asNoTracking)
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+            return Task.FromResult(user);
+        }
+
+        public Task<User?> GetByIdAsync(Guid id)
+        {
+            var user = _context.User.FirstOrDefault(u => u.Id == id);
+            return Task.FromResult(user);
+        }
+
+        public Task<(List<User>, int)> GetListAsync(int page, int size, Func<User, bool>? filter, Func<User, object>? sortby, bool descending = false)
+        {
+            IQueryable<User> query = _context.User.AsNoTracking();
+
+            if (filter != null)
             {
-                query = query.AsNoTracking();
+                query = query.Where(filter).AsQueryable(); // Dummy Industry object for filtering
             }
-            return await query.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (sortby != null)
+            {
+                query = descending ? query.OrderByDescending(sortby).AsQueryable() : query.OrderBy(sortby).AsQueryable();
+            }
+
+            var totalItems = query.Count();
+            var users = query.Skip((page - 1) * size).Take(size).ToList();
+
+            return Task.FromResult((users, totalItems));
         }
 
-        public Task<User> UpdateUserAsync(User user)
+        public Task HardDeleteAsync(User user)
         {
-            var updatedUser = _context.User.Update(user);
-            return Task.FromResult(updatedUser.Entity);
+            _context.User.Remove(user);
+            return Task.CompletedTask;
         }
 
-        public async Task<bool> IsExistedUserAsync(string email, string phoneNumber)
+        public Task<bool> IsExistAsync(Func<User, bool> predicate)
         {
-            return await _context.User.AnyAsync(u => u.Email == email || u.PhoneNumber == phoneNumber);
-        }
-
-        public async Task<bool> IsExistedUserAsync(string email)
-        {
-            return await _context.User.AnyAsync(u => u.Email == email);
+            var isExist = _context.User.Any(predicate); ;
+            return Task.FromResult(isExist);
         }
 
         public Task<User> SignUpAccountAsync(User user)
@@ -51,9 +69,16 @@ namespace CareerGuidance.DataAccess.Data.Repositories
             return Task.FromResult(addedUser.Entity);
         }
 
-        public Task<User> UpdateUserAsync(User user)
+        public Task SoftDeleteAsync(User user)
         {
-            throw new NotImplementedException();
+            user.Active = false;
+            return Task.CompletedTask;
+        }
+
+        public Task<User> UpdateAsync(User user)
+        {
+            var updatedUser = _context.User.Update(user);
+            return Task.FromResult(updatedUser.Entity);
         }
     }
 }

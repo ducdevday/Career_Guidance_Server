@@ -23,7 +23,7 @@ namespace CareerGuidance.WebAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromRoute] SearchUserRequest request)
+        public async Task<IActionResult> Search([FromQuery] SearchUserRequest request)
         {
             var result = await _userBusiness.SearchUserAsync(request);
             HttpContext.Response.StatusCode = (int)result.StatusCode;

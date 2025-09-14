@@ -11,6 +11,11 @@ namespace CareerGuidance.Validation
             services.AddValidatorsFromAssemblyContaining<SignUpValidation>();
             services.AddValidatorsFromAssemblyContaining<LoginValidation>();
             services.AddValidatorsFromAssemblyContaining<VerifyEmailSignUpValidation>();
+            services.AddValidatorsFromAssemblyContaining<CreateIndustryValidation>();
+            services.AddValidatorsFromAssemblyContaining<ForgotPasswordValidation>();
+            services.AddValidatorsFromAssemblyContaining<SetNewPasswordValidation>();
+            services.AddValidatorsFromAssemblyContaining<UpdateIndustryValidation>();
+            services.AddValidatorsFromAssemblyContaining<UpdateUserValidation>();
             return services;
         }
     }

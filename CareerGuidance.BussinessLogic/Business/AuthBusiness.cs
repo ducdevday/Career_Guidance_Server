@@ -38,8 +38,8 @@ namespace CareerGuidance.BussinessLogic.Business
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), string.Empty);
             }
 
-            var isExistedUser = await _context.UserData.IsExistedUserAsync(signUpRequest.Email, signUpRequest.PhoneNumber);
-            
+            var isExistedUser = await _context.UserData.IsExistAsync(x => x.Email == signUpRequest.Email || x.PhoneNumber == signUpRequest.PhoneNumber);
+
             if (isExistedUser)
             {
                 return new SignUpResponse(HttpStatusCode.BadRequest, new List<string> { "Email already exists" }, string.Empty);
@@ -100,7 +100,7 @@ namespace CareerGuidance.BussinessLogic.Business
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), null);
             }
 
-            var user = await _context.UserData.GetUserByEmailAsync(loginRequest.Email, asNoTracking: true);
+            var user = await _context.UserData.GetByEmailAsync(loginRequest.Email);
             if (user == null)
             {
                 return new LoginResponse(HttpStatusCode.BadRequest, new List<string> { "User does not exist" }, null);
@@ -112,7 +112,7 @@ namespace CareerGuidance.BussinessLogic.Business
             }
 
             if (user.Status == AccountStatusType.Unverified)
-            { 
+            {
                 return new LoginResponse(HttpStatusCode.Forbidden, new List<string> { "Account is not verified" }, null);
             }
 
@@ -180,7 +180,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new VerifyEmailSignUpResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
-            var user = await _context.UserData.GetUserByEmailAsync(request.Email);
+            var user = await _context.UserData.GetByEmailAsync(request.Email);
             if (user == null)
             {
                 return new VerifyEmailSignUpResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
@@ -226,7 +226,7 @@ namespace CareerGuidance.BussinessLogic.Business
                 return new ForgotPasswordResponse(HttpStatusCode.BadRequest,
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
-            var user = await _context.UserData.GetUserByEmailAsync(request.Email);
+            var user = await _context.UserData.GetByEmailAsync(request.Email);
             if (user == null)
             {
                 return new ForgotPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);
@@ -282,7 +282,7 @@ namespace CareerGuidance.BussinessLogic.Business
                     validation.Errors.Select(e => e.ErrorMessage).ToList(), false);
             }
 
-            var user = await _context.UserData.GetUserByEmailAsync(setNewPasswordRequest.Email);
+            var user = await _context.UserData.GetByEmailAsync(setNewPasswordRequest.Email);
             if (user == null)
             {
                 return new SetNewPasswordResponse(HttpStatusCode.NotFound, new List<string> { "Email does not exist" }, false);

@@ -9,13 +9,13 @@ namespace CareerGuidance.DataAccess.Data.Interface
 {
     public interface IUserData
     {
-        Task<bool> IsExistAsync(Func<Industry, bool> predicate);
+        Task<bool> IsExistAsync(Func<User, bool> predicate);
         public Task<User> SignUpAccountAsync(User user);
         public Task<User?> GetByEmailAsync(string email);
         public Task<User?> GetByIdAsync(Guid id);
-        public Task UpdateAsync(User user);
+        public Task<User> UpdateAsync(User user);
         public Task SoftDeleteAsync(User user);
         public Task HardDeleteAsync(User user);
-        public Task<(List<User>, int)> GetListAsync(int page, int size, Func<Industry, bool> predicate, );
+        public Task<(List<User>, int)> GetListAsync(int page, int size, Func<User, bool>? filter, Func<User, object>? sortby, bool descending = false);
     }
 }
